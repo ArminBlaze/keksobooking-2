@@ -5,7 +5,6 @@ var adverts = generateAdverts(8);
 console.log(adverts);
 
 var map = document.querySelector('.map');
-map.classList.remove('map--faded');
 
 var template = document.querySelector('template').content;
 
@@ -15,7 +14,7 @@ var buttons = createButtons(adverts);
 console.log(buttons);
 
 var mapPins = map.querySelector('.map__pins');
-mapPins.appendChild(drawButtons(buttons));
+
 
 var mapCardTemplate = template.querySelector('.map__card');
 
@@ -161,4 +160,56 @@ function randomInteger(min, max) {
   var rand = min + Math.random() * (max + 1 - min);
   rand = Math.floor(rand);
   return rand;
+}
+
+
+////////////////////////////////////////
+// 04 - Events
+////////////////////////////////////////
+
+//map.classList.remove('map--faded');
+//mapPins.appendChild(drawButtons(buttons));
+
+var mapShowed = false;
+var mainPin = mapPins.querySelector('.map__pin--main');
+var noticeForm = document.querySelector('.notice__form');
+
+var fieldsets = [].slice.call(noticeForm.querySelectorAll('fieldset'));
+
+fieldsets.forEach(function(item){
+//  console.log(item);
+  item.setAttribute('disabled', '');
+})
+
+mainPin.addEventListener('mouseup', onMainPinMouseUp);
+mapPins.addEventListener('click', onMapPinsClick);
+
+function onMainPinMouseUp (e) {
+  if(mapShowed) return;
+  console.log("mainPin");
+  
+  map.classList.remove('map--faded');
+  mapPins.appendChild(drawButtons(buttons));
+  noticeForm.classList.remove('notice__form--disabled');
+  fieldsets.forEach(function(item){
+    item.removeAttribute('disabled');
+  });
+  mapShowed = true;
+}
+
+function onMapPinsClick (e) {
+  var target = e.target;
+  
+  while (target != this) {
+    if ( target.classList.contains("map__pin") ) break;
+    target = target.parentNode;
+  }
+  if (target == this) return;
+  
+  console.log(target);
+  if(~buttons.indexOf(target)) {
+    console.log(buttons.indexOf(target));
+    
+  }
+  
 }
