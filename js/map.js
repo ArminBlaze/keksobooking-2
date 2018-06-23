@@ -18,14 +18,15 @@ var mapPins = map.querySelector('.map__pins');
 
 var mapCardTemplate = template.querySelector('.map__card');
 
-map.appendChild(createMapCard(mapCardTemplate));
+//map.appendChild(createMapCard(mapCardTemplate));
 
-
-function createMapCard (template) {
+//функция создание карточки объявления
+function createMapCard (template, index) {
   // нет адреса и дескрипшена
 //  var advert = adverts[0];
   // рандомное объявление
-  var advert = adverts[randomInteger(0, adverts.length - 1)];
+//  var advert = adverts[randomInteger(0, adverts.length - 1)];
+  var advert = adverts[index];
   var type = advert.offer.type;
   
   switch (type) {
@@ -169,6 +170,7 @@ function randomInteger(min, max) {
 
 //map.classList.remove('map--faded');
 //mapPins.appendChild(drawButtons(buttons));
+//map.appendChild(createMapCard(mapCardTemplate));
 
 var mapShowed = false;
 var mainPin = mapPins.querySelector('.map__pin--main');
@@ -194,10 +196,15 @@ function onMainPinMouseUp (e) {
   fieldsets.forEach(function(item){
     item.removeAttribute('disabled');
   });
+	//
   mapShowed = true;
 }
 
+var advertCard = null;
+var activePin = null;
+
 function onMapPinsClick (e) {
+	
   var target = e.target;
   
   while (target != this) {
@@ -207,9 +214,30 @@ function onMapPinsClick (e) {
   if (target == this) return;
   
   console.log(target);
-  if(~buttons.indexOf(target)) {
-    console.log(buttons.indexOf(target));
-    
-  }
   
+	onAdvertClose();
+	
+	//добавляем map__pin_active элементу
+	activePin = target;
+	activePin.classList.add('map__pin_active');
+	
+	if(~buttons.indexOf(activePin)) {
+		var index = buttons.indexOf(activePin);
+    console.log(index);
+		advertCard = createMapCard(mapCardTemplate, index);
+    map.appendChild(advertCard);
+		
+		advertCard.querySelector('.popup__close').addEventListener('click', onAdvertClose);
+  }
+}
+
+function onAdvertClose () {
+	if(activePin) {
+		activePin.classList.remove('map__pin_active');
+		activePin = null;
+		if(advertCard) {
+			map.removeChild(advertCard);
+			advertCard = null;
+		}
+	}
 }

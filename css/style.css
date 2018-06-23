@@ -240,6 +240,38 @@ textarea:focus {
   border-top-color: #ff5635;
 }
 
+.map__pin:focus {
+  outline: none;
+}
+
+.map__pin:focus img {
+/*  background-color: #ff5635;*/
+/*  background-color: gray;*/
+/*  box-shadow: 0 0 10px 10px rgba(255, 86, 53, 0.7);*/
+  box-shadow: 0 0 10px 10px rgba(255, 86, 53, 0.7);
+}
+
+.map__pin:focus::after {
+/*  border-top-color: #ff5635;*/
+}
+
+.map__pin--main:focus img {
+    background: #fff;
+}
+
+.map__pin_active {
+	outline: none;
+}
+
+.map__pin_active::after {
+	border-top-color: #ff5635;
+}
+
+.map__pin_active img {
+  background-color: #ff5635;
+  box-shadow: 0 0 5px 5px rgba(255, 86, 53, 0.7);
+}
+
 .map__pin--main {
   left: 50%;
   top: 375px;
