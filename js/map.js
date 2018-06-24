@@ -186,6 +186,11 @@ fieldsets.forEach(function(item){
 mainPin.addEventListener('mouseup', onMainPinMouseUp);
 mapPins.addEventListener('click', onMapPinsClick);
 
+var advertCard = null;
+var activePin = null;
+
+var ESC_KEYCODE = 27;
+
 function onMainPinMouseUp (e) {
   if(mapShowed) return;
   console.log("mainPin");
@@ -199,9 +204,6 @@ function onMainPinMouseUp (e) {
 	//
   mapShowed = true;
 }
-
-var advertCard = null;
-var activePin = null;
 
 function onMapPinsClick (e) {
 	
@@ -217,9 +219,15 @@ function onMapPinsClick (e) {
   
 	onAdvertClose();
 	
+	onAdvertOpen(target);
+}
+
+function onAdvertOpen (target) {
 	//добавляем map__pin_active элементу
 	activePin = target;
 	activePin.classList.add('map__pin_active');
+	
+	document.addEventListener('keydown', onPopupEscPress);
 	
 	if(~buttons.indexOf(activePin)) {
 		var index = buttons.indexOf(activePin);
@@ -237,7 +245,15 @@ function onAdvertClose () {
 		activePin = null;
 		if(advertCard) {
 			map.removeChild(advertCard);
+			document.removeEventListener('keydown', onPopupEscPress);
 			advertCard = null;
 		}
 	}
+}
+
+function onPopupEscPress (e) {
+//  if( e.target.classList.contains('setup-user-name') ) return; // игнорируем, если выделение на инпуте
+  if(e.keyCode === ESC_KEYCODE) {
+    onAdvertClose();
+  }
 }
