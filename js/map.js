@@ -191,6 +191,98 @@ var activePin = null;
 
 var ESC_KEYCODE = 27;
 
+
+//синхронизация полей ввода
+timein.addEventListener('input', onTimeinChange);
+timeout.addEventListener('input', onTimeinChange);
+
+type.addEventListener('input', onTypeChange);
+
+room_number.addEventListener('input', onRoomChange);
+
+var form = document.querySelector('.notice__form');
+
+form.addEventListener('invalid', onFormInvalid, true);
+
+function onFormInvalid (e) {
+	console.log(e.target);
+	
+	e.target.style = 'border: 5px solid red';
+//	e.target.addEventListener('keydown', function())
+};
+
+//var validityForm = function () {
+//    for (var i = 0; i < formInputsvalid.length; i++) {
+//      var validity = formInputsvalid[i].validity.valid;
+//      if (!validity) {
+//        formInputsvalid[i].classList.add('error');
+//      } else {
+//        formInputsvalid[i].classList.remove('error');
+//      }
+//    }
+//};
+
+														
+														
+
+function onRoomChange (e) {
+	disableAllOptions(capacity);
+	enableOptions(this.value);
+	
+	function enableOptions (num) {
+		if (num >= capacity.options.length) {
+			capacity.options[capacity.options.length - 1].disabled = false;
+			num = 0;
+		}
+		
+		for (var i = 0; i < num; i++) {
+			capacity.options[i].disabled = false;
+		}
+		
+		capacity.value = num;
+	}
+
+	function disableAllOptions (select) {
+		var options = [].slice.call(select.options);
+
+		options.forEach(function(item){
+		//  console.log(item);
+			item.setAttribute('disabled', 'true');
+		})
+	}
+}
+
+
+
+function onTypeChange (e) {
+	console.log(this.value);
+	console.log(price.min);
+	
+	switch(this.value) {
+		case "flat":
+			price.min = 1000;
+			price.placeholder = 1000;
+			break;
+		case "house":
+			price.min = 5000;
+			price.placeholder = 5000;
+			break;
+		case "palace":
+			price.min = 10000;
+			price.placeholder = 10000;
+			break;
+		default:
+			price.min = 0;
+			price.placeholder = 0;
+			break;
+	}
+}
+
+function onTimeinChange (e) {
+//	(this === timein) ? timeout.value = this.value : timein.value = this.value;
+	timein.value = timeout.value = this.value;
+}
+
 function onMainPinMouseUp (e) {
   if(mapShowed) return;
   console.log("mainPin");
