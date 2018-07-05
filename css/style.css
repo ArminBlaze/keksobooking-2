@@ -84,15 +84,10 @@ textarea:focus {
   box-shadow: 0 0 4px 1px #ff6547;
 }
 
-/*
-input[type=text]:invalid:not(:focus),
-input[type=number]:invalid:not(:focus),
-select:focus,
-textarea:focus {
+.form__error {
   outline: none;
   box-shadow: 0 0 4px 1px red;
 }
-*/
 
 .hidden {
   display: none;

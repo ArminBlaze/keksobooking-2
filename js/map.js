@@ -2,7 +2,7 @@
 
 var adverts = generateAdverts(8);
 
-console.log(adverts);
+//console.log(adverts);
 
 var map = document.querySelector('.map');
 
@@ -11,7 +11,7 @@ var template = document.querySelector('template').content;
 var buttonTemplate = template.querySelector('.map__pin');
 
 var buttons = createButtons(adverts);
-console.log(buttons);
+//console.log(buttons);
 
 var mapPins = map.querySelector('.map__pins');
 
@@ -200,30 +200,27 @@ type.addEventListener('input', onTypeChange);
 
 room_number.addEventListener('input', onRoomChange);
 
+// валидация формы
 var form = document.querySelector('.notice__form');
+var submitButton = form.querySelector('.form__submit');
 
-form.addEventListener('invalid', onFormInvalid, true);
+var inputs = form.querySelectorAll('input:not([type="submit"])');
 
-function onFormInvalid (e) {
-	console.log(e.target);
-	
-	e.target.style = 'border: 5px solid red';
-//	e.target.addEventListener('keydown', function())
-};
+submitButton.addEventListener('click', formValidation, true);
 
-//var validityForm = function () {
-//    for (var i = 0; i < formInputsvalid.length; i++) {
-//      var validity = formInputsvalid[i].validity.valid;
-//      if (!validity) {
-//        formInputsvalid[i].classList.add('error');
-//      } else {
-//        formInputsvalid[i].classList.remove('error');
-//      }
-//    }
-//};
 
-														
-														
+//функции и обработчики
+function formValidation (e) {
+	console.log("validation");
+	for (var i = 0; i < inputs.length; i++) {
+		var validity = inputs[i].validity.valid;
+		if (!validity) {
+			inputs[i].classList.add('form__error');
+		} else {
+			inputs[i].classList.remove('form__error');
+		}
+	}
+}
 
 function onRoomChange (e) {
 	disableAllOptions(capacity);
@@ -253,10 +250,9 @@ function onRoomChange (e) {
 }
 
 
-
 function onTypeChange (e) {
-	console.log(this.value);
-	console.log(price.min);
+//	console.log(this.value);
+//	console.log(price.min);
 	
 	switch(this.value) {
 		case "flat":
@@ -285,7 +281,7 @@ function onTimeinChange (e) {
 
 function onMainPinMouseUp (e) {
   if(mapShowed) return;
-  console.log("mainPin");
+//  console.log("mainPin");
   
   map.classList.remove('map--faded');
   mapPins.appendChild(drawButtons(buttons));
@@ -307,7 +303,7 @@ function onMapPinsClick (e) {
   }
   if (target == this) return;
   
-  console.log(target);
+//  console.log(target);
   
 	onAdvertClose();
 	
@@ -323,7 +319,7 @@ function onAdvertOpen (target) {
 	
 	if(~buttons.indexOf(activePin)) {
 		var index = buttons.indexOf(activePin);
-    console.log(index);
+//    console.log(index);
 		advertCard = createMapCard(mapCardTemplate, index);
     map.appendChild(advertCard);
 		
