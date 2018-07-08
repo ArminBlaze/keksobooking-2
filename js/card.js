@@ -12,8 +12,8 @@
 	var adverts = data.adverts;
 
 
-	function onAdvertOpen (target) {
-		onAdvertClose();
+	function showCard(target) {
+		closeCard();
 
 		if(~buttons.indexOf(window.map.activePin)) {
 			var index = buttons.indexOf(window.map.activePin);
@@ -22,12 +22,12 @@
 			map.appendChild(window.map.advertCard);
 
 			document.addEventListener('keydown', onPopupEscPress);
-			window.map.advertCard.querySelector('.popup__close').addEventListener('click', onAdvertClose);
+			window.map.advertCard.querySelector('.popup__close').addEventListener('click', closeCard);
 		}
 	}
 	
 
-	function onAdvertClose () {
+	function closeCard () {
 		if(window.map.advertCard) {
 			map.removeChild(window.map.advertCard);
 			document.removeEventListener('keydown', onPopupEscPress);
@@ -38,7 +38,7 @@
 	function onPopupEscPress (e) {
 	//  if( e.target.classList.contains('setup-user-name') ) return; // игнорируем, если выделение на инпуте
 		if(e.keyCode === ESC_KEYCODE) {
-			onAdvertClose();
+			closeCard();
 		}
 	}
 	
@@ -83,7 +83,7 @@
 	}
 
 	window.map.card = {
-		showCard: onAdvertOpen,
-		closeCard: onAdvertClose
+		showCard: showCard,
+		closeCard: closeCard
 	};
 })();

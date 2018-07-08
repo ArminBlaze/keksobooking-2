@@ -4,17 +4,21 @@
 
 (function () { 
 	var map = document.querySelector('.map');
+	var mapPins = map.querySelector('.map__pins');
+	var mainPin = mapPins.querySelector('.map__pin--main');
 	
 	window.map = {
 		mapShowed: false,
 		advertCard: null,
 		activePin: null,
-		mapElem: map
+		mapElem: map,
+		showMap: showMap,
+		mapPins: mapPins,
+		mainPin: mainPin
 	};
 	
 	
-	var mapPins = map.querySelector('.map__pins');
-	var mainPin = mapPins.querySelector('.map__pin--main');
+	
 	
 	mainPin.addEventListener('mouseup', onMainPinMouseUp);
 	mapPins.addEventListener('click', onMapPinsClick);
@@ -39,13 +43,10 @@
 		if (target == this) return;
 
 		if(window.map.activePin) {
-			window.map.activePin.classList.remove('map__pin_active');
-			window.map.activePin = null;
+			window.map.pin.deselectPin();
 		}
 
-		//добавляем map__pin_active элементу
-		window.map.activePin = target;
-		window.map.activePin.classList.add('map__pin_active');
+		window.map.pin.selectPin(target);
 		
 		window.map.card.showCard(target);
 	}
@@ -61,8 +62,4 @@
 		window.mapShowed = true;
 	}
 
-		
-		window.map.showMap = showMap;
-		window.map.mapPins = mapPins;
-		window.map.mainPin = mainPin;
 })();
