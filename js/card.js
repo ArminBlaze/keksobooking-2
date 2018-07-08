@@ -6,44 +6,39 @@
 	// Card Module
 	
 	var mapCardTemplate = document.querySelector('template').content.querySelector('.map__card');
-
+	var buttons = window.data.buttons;
+	var map = window.map.mapElem;
 	var ESC_KEYCODE = 27;
+	var adverts = data.adverts;
+
+
+	function showCard(target) {
+		closeCard();
+
+		if(~buttons.indexOf(window.map.activePin)) {
+			var index = buttons.indexOf(window.map.activePin);
+	//    console.log(index);
+			window.map.advertCard = createMapCard(index);
+			map.appendChild(window.map.advertCard);
+
+			document.addEventListener('keydown', onPopupEscPress);
+			window.map.advertCard.querySelector('.popup__close').addEventListener('click', closeCard);
+		}
+	}
 	
 
-	function onAdvertOpen (target) {
-		onAdvertClose();
-		//добавляем map__pin_active элементу
-		activePin = target;
-		activePin.classList.add('map__pin_active');
-
-		document.addEventListener('keydown', onPopupEscPress);
-
-		if(~buttons.indexOf(activePin)) {
-			var index = buttons.indexOf(activePin);
-	//    console.log(index);
-			advertCard = createMapCard(index);
-			map.appendChild(advertCard);
-
-			advertCard.querySelector('.popup__close').addEventListener('click', onAdvertClose);
+	function closeCard () {
+		if(window.map.advertCard) {
+			map.removeChild(window.map.advertCard);
+			document.removeEventListener('keydown', onPopupEscPress);
+			window.map.advertCard = null;
 		}
 	}
-
-	function onAdvertClose () {
-		if(activePin) {
-			activePin.classList.remove('map__pin_active');
-			activePin = null;
-			if(advertCard) {
-				map.removeChild(advertCard);
-				document.removeEventListener('keydown', onPopupEscPress);
-				advertCard = null;
-			}
-		}
-	}
-
+	
 	function onPopupEscPress (e) {
 	//  if( e.target.classList.contains('setup-user-name') ) return; // игнорируем, если выделение на инпуте
 		if(e.keyCode === ESC_KEYCODE) {
-			onAdvertClose();
+			closeCard();
 		}
 	}
 	
@@ -87,6 +82,8 @@
 		return mapCard;
 	}
 
-	// End of Card Module
-	//////////////////////////////
+	window.map.card = {
+		showCard: showCard,
+		closeCard: closeCard
+	};
 })();

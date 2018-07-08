@@ -3,45 +3,37 @@
 (function () { 
 	////////////////////////
 	// Pin Module
-	var map = window.map.mapElem;
-	var mapPins = document.querySelector('.map__pins');
-	var mainPin = mapPins.querySelector('.map__pin--main');
 	
-	mainPin.addEventListener('mouseup', onMainPinMouseUp);
-	mapPins.addEventListener('click', onMapPinsClick);
-
-	var activePin = null;
-
-
-	function onMainPinMouseUp (e) {
-		if(window.map.mapShowed) return;
+	
+	function drawButtons () {
+		var buttons = window.data.buttons;
 		
-		window.map.showMap();
-		mapPins.appendChild(drawButtons(window.data.buttons)); 
-		//убирать слушателья mouseup?
-	}
-	
-	function drawButtons (buttons) {
 		var fragment = document.createDocumentFragment();
 		for (var i = 0; i < buttons.length; i++) {
 			fragment.appendChild(buttons[i]);
 		}
-		return fragment;
+//		return fragment;
+		window.map.mapPins.appendChild(fragment);
+	}
+	
+	function deselectPin () {
+		window.map.activePin.classList.remove('map__pin_active');
+		window.map.activePin = null;
+	}
+	
+	function selectPin (target) {
+		window.map.activePin = target;
+		window.map.activePin.classList.add('map__pin_active');
 	}
 
 
-	function onMapPinsClick (e) {
-		var target = e.target;
-
-		while (target != this) {
-			if ( target.classList.contains("map__pin") ) break;
-			target = target.parentNode;
-		}
-		if (target == this) return;
-
-//		onAdvertClose();
-		onAdvertOpen(target);
-	}
+	
+	
+	window.map.pin = {
+		drawButtons: drawButtons,
+		selectPin: selectPin,
+		deselectPin: deselectPin
+	};
 	// End of Pin Module
 	////////////////////////
 })();

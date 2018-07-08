@@ -123,7 +123,8 @@
 	}
 	
 	window.data = {
-		buttons: buttons
+		buttons: buttons,
+		adverts: adverts
 	};
 
 })();
