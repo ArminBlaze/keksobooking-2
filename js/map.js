@@ -20,11 +20,13 @@
 	
 	mainPin.addEventListener('mouseup', onMainPinMouseUp);
 	mapPins.addEventListener('click', onMapPinsClick);
-	
-	
+	map.addEventListener('card-closed', onCardClose);
+	mapPins.addEventListener('mousedown', function(e) {
+		e.preventDefault(); //отмена выделения карты
+	});
 
 
-
+	//функция активации карты и формы. Запускается однократно, а потом удаляет обработчик
 	function onMainPinMouseUp (e) {
 		showMap();
 		window.map.pin.drawButtons();
@@ -32,21 +34,39 @@
 		//убирать слушателья mouseup?
 		mainPin.removeEventListener('mouseup', onMainPinMouseUp);
 		mainPin.addEventListener('mousedown', onDragstart);
-	}
+	};
 
+	//обработка кликов по пинам
 	function onMapPinsClick (e) {
+		//делегирование - поднимаемся по родителям
 		var target = e.target;
 		while (target != this) {
 			if ( target.classList.contains("map__pin") ) break;
 			target = target.parentNode;
 		}
 		if (target == this) return;
-		
 
+		//логика
+		showCard(target);
+	};
+	
+//	generateEvent() {
+//    this.elem.dispatchEvent(new CustomEvent('form-send', {
+//          bubbles: true,
+//          detail: this.user._id
+//        }));
+//  }
+	
+	function onCardClose () {
 		if(window.map.activePin) window.map.pin.deselectPin();
+	}
+	
+	function showCard (target) {
+		onCardClose();
 		window.map.pin.selectPin(target);
 		window.map.card.showCard(target);
 	}
+	
 	
 
 	function showMap () {
@@ -59,6 +79,7 @@
 	}
 	
 	
+	//перетаскивание пина
 	function onDragstart (e) {
 		var mapCoords = getCoords(map);
 		var mapMax = {

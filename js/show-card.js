@@ -29,10 +29,18 @@
 
 	function closeCard () {
 		if(window.map.advertCard) {
+			generateCloseEvent(window.map.mapElem);
 			map.removeChild(window.map.advertCard);
 			document.removeEventListener('keydown', onPopupEscPress);
 			window.map.advertCard = null;
+			
 		}
+	}
+	
+	function generateCloseEvent (elem) {
+		elem.dispatchEvent(new CustomEvent('card-closed', {
+			bubbles: true
+		}));
 	}
 	
 	function onPopupEscPress (e) {
