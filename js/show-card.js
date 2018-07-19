@@ -13,10 +13,11 @@
 
 
 	function showCard(target) {
+		console.log("card.showCard()");
 		closeCard();
 
-		if(~buttons.indexOf(window.map.activePin)) {
-			var index = buttons.indexOf(window.map.activePin);
+		if(~buttons.indexOf(target)) {
+			var index = buttons.indexOf(target);
 	//    console.log(index);
 			window.map.advertCard = createMapCard(index);
 			map.appendChild(window.map.advertCard);
@@ -25,15 +26,14 @@
 			window.map.advertCard.querySelector('.popup__close').addEventListener('click', closeCard);
 		}
 	}
-	
 
 	function closeCard () {
 		if(window.map.advertCard) {
+			console.log("card.closeCard()");
 			generateCloseEvent(window.map.mapElem);
 			map.removeChild(window.map.advertCard);
 			document.removeEventListener('keydown', onPopupEscPress);
 			window.map.advertCard = null;
-			
 		}
 	}
 	

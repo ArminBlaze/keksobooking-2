@@ -57,18 +57,21 @@
 //        }));
 //  }
 	
-	function onCardClose () {
-		if(window.map.activePin) window.map.pin.deselectPin();
-	}
+	
 	
 	function showCard (target) {
-		onCardClose();
-		window.map.pin.selectPin(target);
+		console.log("map.showCard()");
+//		onCardClose();
 		window.map.card.showCard(target);
+		window.map.pin.selectPin(target);
 	}
 	
-	
+	function onCardClose () {
+		console.log("map.onCardClose()");
+		if(window.map.activePin) window.map.pin.deselectPin();
+	}
 
+	
 	function showMap () {
 		map.classList.remove('map--faded'); //
 		window.form.noticeForm.classList.remove('notice__form--disabled'); //
