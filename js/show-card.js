@@ -6,13 +6,14 @@
 	// Card Module
 	
 	var mapCardTemplate = document.querySelector('template').content.querySelector('.map__card');
-	var buttons = window.data.buttons;
+	
 	var map = window.map.mapElem;
 	var ESC_KEYCODE = 27;
-	var adverts = data.adverts;
+	
 
 
 	function showCard(target) {
+		var buttons = window.data.buttons;
 		closeCard();
 
 		if(~buttons.indexOf(target)) {
@@ -55,6 +56,7 @@
 	//  var advert = adverts[0];
 		// рандомное объявление
 	//  var advert = adverts[randomInteger(0, adverts.length - 1)];
+		var adverts = window.data.adverts;
 		var advert = adverts[index];
 		var type = advert.offer.type;
 
