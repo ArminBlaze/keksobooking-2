@@ -36,9 +36,10 @@
 	}
 	
 	function generateCloseEvent (elem) {
-		elem.dispatchEvent(new CustomEvent('card-closed', {
-			bubbles: true
-		}));
+//		var event = new CustomEvent('card-closed', {bubbles: true});	//Edge > 11 IE
+		var event = document.createEvent("Event"); //IE 9+
+		event.initEvent("card-closed", true, true); //IE 9+
+		elem.dispatchEvent(event);
 	}
 	
 	function onPopupEscPress (e) {
