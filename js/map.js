@@ -60,14 +60,12 @@
 	
 	
 	function showCard (target) {
-		console.log("map.showCard()");
 		onCardClose();
 		window.map.card.showCard(target);
 		window.map.pin.selectPin(target);
 	}
 	
 	function onCardClose () {
-		console.log("map.onCardClose()");
 		if(window.map.activePin) window.map.pin.deselectPin();
 	}
 

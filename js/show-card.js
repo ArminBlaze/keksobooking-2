@@ -13,7 +13,6 @@
 
 
 	function showCard(target) {
-		console.log("card.showCard()");
 		closeCard();
 
 		if(~buttons.indexOf(target)) {
@@ -29,7 +28,6 @@
 
 	function closeCard () {
 		if(window.map.advertCard) {
-			console.log("card.closeCard()");
 			generateCloseEvent(window.map.mapElem);
 			map.removeChild(window.map.advertCard);
 			document.removeEventListener('keydown', onPopupEscPress);
