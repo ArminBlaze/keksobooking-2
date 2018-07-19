@@ -61,7 +61,7 @@
 	
 	function showCard (target) {
 		console.log("map.showCard()");
-//		onCardClose();
+		onCardClose();
 		window.map.card.showCard(target);
 		window.map.pin.selectPin(target);
 	}
