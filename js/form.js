@@ -15,7 +15,7 @@
 		item.setAttribute('disabled', '');
 	});
 	
-	//делаем адрес типа "readonly", запрещаем любое выделение
+	//делаем input#address типа "readonly", запрещаем любое выделение, т.к. нельзя сделать input одновременно required & readonly
 	address.addEventListener('paste', function(e){e.preventDefault()});
 	address.addEventListener('keypress', function(e){e.preventDefault()});
 	address.addEventListener('mousedown', function(e){e.preventDefault()});
@@ -39,7 +39,7 @@
 		window.backend.save(new FormData(this), onLoad, window.data.onError)
 	}
 	
-	function onLoad (data) {
+	function onLoad (data) {	//при успешной отправке данных на сервер
 		console.log(data);
 		form.reset();
 	}
@@ -148,8 +148,6 @@
 			})
 		}
 	}
-	
-	
 	
 	
 	window.form = {
