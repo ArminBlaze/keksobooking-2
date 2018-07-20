@@ -13,9 +13,16 @@
 	fieldsets.forEach(function(item){
 	//  console.log(item);
 		item.setAttribute('disabled', '');
-	})
-
+	});
 	
+	//делаем адрес типа "readonly", запрещаем любое выделение
+	address.addEventListener('paste', function(e){e.preventDefault()});
+	address.addEventListener('keypress', function(e){e.preventDefault()});
+	address.addEventListener('mousedown', function(e){e.preventDefault()});
+	address.addEventListener('focus', function(e){
+		this.blur();
+		e.preventDefault()
+	});
 	
 
 	// валидация формы
@@ -25,25 +32,42 @@
 	var inputs = form.querySelectorAll('input:not([type="submit"])');
 
 	submitButton.addEventListener('click', formValidation, true);
+	form.addEventListener('submit', onFormSubmit);
+	
+	function onFormSubmit (e) {
+		e.preventDefault();
+		window.backend.save(new FormData(this), onLoad, window.data.onError)
+	}
+	
+	function onLoad (data) {
+		console.log(data);
+		form.reset();
+	}
 
 	function formValidation (e) {
-		console.log("validation");
 		for (var i = 0; i < inputs.length; i++) {
+			inputs[i].setCustomValidity(""); //сбрасываем кастомную валидацию, иначе поле невалидно
 			var validity = inputs[i].validity.valid;
 			if (!validity) {
 				inputs[i].classList.add('form__error');
+				customValidity(inputs[i]);
 			} else {
 				inputs[i].classList.remove('form__error');
 			}
 		}
+	};
+	
+	function customValidity (elem) {
+		if(elem === address && elem.validity.valueMissing) { // 
+			elem.setCustomValidity('Пожалуйста, выберите адрес маркером на карте');
+		} 
 	}
-
 
 	
 	function setAddress (position) {
 		address.value = "x: " + position.x + ", y: " + position.y;
 //		testAddress(position);
-	}
+	};
 	
 	//тестовая функция. Не нужна в финальной сборке. Отображает маркер на полученных координатах.
 //	function testAddress (position) {

@@ -116,9 +116,8 @@
 		return rand;
 	}
 	
-	//06 - XHR
-		
 	
+	//06 - XHR
 	function onLoad (data) {
 		window.data.adverts = data;
 		window.data.buttons = createButtons(data);
@@ -153,7 +152,8 @@
 	
 	window.data = {
 		buttons: buttons,
-		adverts: adverts
+		adverts: adverts,
+		onError: onError
 	};
 
 })();
