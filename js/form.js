@@ -42,6 +42,7 @@
 	function onLoad (data) {	//при успешной отправке данных на сервер
 		console.log(data);
 		form.reset();
+		window.data.onError("Данные отправлены", true);
 	}
 
 	function formValidation (e) {

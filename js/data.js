@@ -8,16 +8,12 @@
 	var adverts, buttons;
 	window.backend.load(onLoad, onError);
 	
-//	console.log(adverts);
 
 	var map = document.querySelector('.map');
 
 	var template = document.querySelector('template').content;
 
 	var buttonTemplate = template.querySelector('.map__pin');
-
-	
-	//console.log(buttons);
 
 	
 	var mapCardTemplate = template.querySelector('.map__card');
@@ -46,6 +42,77 @@
 		elem.querySelector('img').src = avatar;
 		return elem;
 	}
+
+
+	function randomInteger(min, max) {
+		var rand = min + Math.random() * (max + 1 - min);
+		rand = Math.floor(rand);
+		return rand;
+	}
+	
+	
+	//06 - XHR
+	function onLoad (data) {
+		window.data.adverts = data;
+		window.data.buttons = createButtons(data);
+	}
+	
+	
+	function onError (message, success) {
+		if (!success) console.error(message);
+			
+		var errorDiv = document.querySelector('.errorDiv');
+
+//		if(errorDiv) document.removeChild(errorDiv);
+
+		if(!errorDiv) {
+			errorDiv = document.createElement('div');
+			errorDiv.classList.add('errorDiv');
+			errorDiv.style = '\
+				z-index: 100;\
+				margin: 0 auto;\
+				text-align: center;\
+				position: fixed;\
+				top: 0;\
+				left: 0;\
+				right: 0;\
+				font-size: 30px;\
+			';
+			if(!success) errorDiv.style.backgroundColor = "red";
+			else {
+				errorDiv.style.backgroundColor = "green";
+			}
+		}
+			
+
+		if(window.data.timer) {
+			clearTimeout(window.data.timer);
+			window.data.timer = null;
+		}
+
+		window.data.timer = setTimeout(function(){
+			var errorDiv = document.querySelector('.errorDiv');
+			if(errorDiv) errorDiv.parentNode.removeChild(errorDiv);
+		}, 10000);
+		
+		
+		errorDiv.textContent = message;
+		document.body.appendChild(errorDiv);
+	}
+	
+	
+	window.data = {
+		buttons: buttons,
+		adverts: adverts,
+		onError: onError
+	};
+
+})();
+
+
+
+// End of Data module
+/////////////////
 
 //	function generateAdverts(n) {
 //		var arr = [];
@@ -109,53 +176,3 @@
 //			}
 //		}
 //	}
-
-	function randomInteger(min, max) {
-		var rand = min + Math.random() * (max + 1 - min);
-		rand = Math.floor(rand);
-		return rand;
-	}
-	
-	
-	//06 - XHR
-	function onLoad (data) {
-		window.data.adverts = data;
-		window.data.buttons = createButtons(data);
-	}
-	
-	function onError (message) {
-		console.error(message);
-			
-		var errorDiv = document.querySelector('.errorDiv');
-
-//		if(errorDiv) document.removeChild(errorDiv);
-
-		if(!errorDiv) {
-			errorDiv = document.createElement('div');
-			errorDiv.style = '\
-				z-index: 100;\
-				margin: 0 auto;\
-				text-align: center;\
-				background-color: red;\
-				position: absolute;\
-				top: 0;\
-				left: 0;\
-				right: 0;\
-				font-size: 30px;\
-			';
-		}
-		
-		errorDiv.textContent = message;
-		document.body.appendChild(errorDiv);
-	}
-	
-	
-	window.data = {
-		buttons: buttons,
-		adverts: adverts,
-		onError: onError
-	};
-
-})();
-// End of Data module
-/////////////////
