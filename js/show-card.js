@@ -6,17 +6,18 @@
 	// Card Module
 	
 	var mapCardTemplate = document.querySelector('template').content.querySelector('.map__card');
-	var buttons = window.data.buttons;
+	
 	var map = window.map.mapElem;
 	var ESC_KEYCODE = 27;
-	var adverts = data.adverts;
+	
 
 
 	function showCard(target) {
+		var buttons = window.data.buttons;
 		closeCard();
 
-		if(~buttons.indexOf(window.map.activePin)) {
-			var index = buttons.indexOf(window.map.activePin);
+		if(~buttons.indexOf(target)) {
+			var index = buttons.indexOf(target);
 	//    console.log(index);
 			window.map.advertCard = createMapCard(index);
 			map.appendChild(window.map.advertCard);
@@ -25,14 +26,21 @@
 			window.map.advertCard.querySelector('.popup__close').addEventListener('click', closeCard);
 		}
 	}
-	
 
 	function closeCard () {
 		if(window.map.advertCard) {
+			generateCloseEvent(window.map.mapElem);
 			map.removeChild(window.map.advertCard);
 			document.removeEventListener('keydown', onPopupEscPress);
 			window.map.advertCard = null;
 		}
+	}
+	
+	function generateCloseEvent (elem) {
+//		var event = new CustomEvent('card-closed', {bubbles: true});	//Edge > 11 IE
+		var event = document.createEvent("Event"); //IE 9+
+		event.initEvent("card-closed", true, true); //IE 9+
+		elem.dispatchEvent(event);
 	}
 	
 	function onPopupEscPress (e) {
@@ -48,6 +56,7 @@
 	//  var advert = adverts[0];
 		// рандомное объявление
 	//  var advert = adverts[randomInteger(0, adverts.length - 1)];
+		var adverts = window.data.adverts;
 		var advert = adverts[index];
 		var type = advert.offer.type;
 

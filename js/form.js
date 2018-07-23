@@ -13,14 +13,17 @@
 	fieldsets.forEach(function(item){
 	//  console.log(item);
 		item.setAttribute('disabled', '');
-	})
-
-	timein.addEventListener('input', onTimeinChange);
-	timeout.addEventListener('input', onTimeinChange);
-
-	type.addEventListener('input', onTypeChange);
-
-	room_number.addEventListener('input', onRoomChange);
+	});
+	
+	//делаем input#address типа "readonly", запрещаем любое выделение, т.к. нельзя сделать input одновременно required & readonly
+	address.addEventListener('paste', function(e){e.preventDefault()});
+	address.addEventListener('keypress', function(e){e.preventDefault()});
+	address.addEventListener('mousedown', function(e){e.preventDefault()});
+	address.addEventListener('focus', function(e){
+		this.blur();
+		e.preventDefault()
+	});
+	
 
 	// валидация формы
 	var form = document.querySelector('.notice__form');
@@ -29,96 +32,124 @@
 	var inputs = form.querySelectorAll('input:not([type="submit"])');
 
 	submitButton.addEventListener('click', formValidation, true);
+	form.addEventListener('submit', onFormSubmit);
+	
+	function onFormSubmit (e) {
+		e.preventDefault();
+		window.backend.save(new FormData(this), onLoad, window.data.onError)
+	}
+	
+	function onLoad (data) {	//при успешной отправке данных на сервер
+		console.log(data);
+		form.reset();
+		window.data.onError("Данные отправлены", true);
+	}
 
 	function formValidation (e) {
-		console.log("validation");
 		for (var i = 0; i < inputs.length; i++) {
+			inputs[i].setCustomValidity(""); //сбрасываем кастомную валидацию, иначе поле невалидно
 			var validity = inputs[i].validity.valid;
 			if (!validity) {
 				inputs[i].classList.add('form__error');
+				customValidity(inputs[i]);
 			} else {
 				inputs[i].classList.remove('form__error');
 			}
 		}
+	};
+	
+	function customValidity (elem) {
+		if(elem === address && elem.validity.valueMissing) { // 
+			elem.setCustomValidity('Пожалуйста, выберите адрес маркером на карте');
+		} 
 	}
 
-	function onRoomChange (e) {
-		disableAllOptions(capacity);
-		enableOptions(this.value);
+	
+	function setAddress (position) {
+		address.value = "x: " + position.x + ", y: " + position.y;
+//		testAddress(position);
+	};
+	
+	//тестовая функция. Не нужна в финальной сборке. Отображает маркер на полученных координатах.
+//	function testAddress (position) {
+//		console.log(position);
+//		var div = document.createElement('div');
+//		div.style.position = 'absolute';
+//		div.style.left = position.x + "px";
+//		div.style.top = position.y + "px";
+//		div.style.width = "1px";
+//		div.style.height = "1px";
+//		div.style.background = "lime";
+//		div.style.outline = "1px solid black";
+//		div.style.zIndex = "1001";
+//		
+//		window.map.mapElem.appendChild(div)
+//	}
+	
+	
+	//06 - Синхронизация полей - общая функция
+	timein.addEventListener('input', onTimeinChange);
+	timeout.addEventListener('input', onTimeinChange);
+	type.addEventListener('input', onTypeChange);
+	
+	function onTypeChange (e) {
+		synchronizeFields(type, price, ["flat", "house", "palace", "bungalo"], [1000, 5000, 10000, 0], syncValueWithMin);
+	}
+	
+	var syncValueWithMin = function(element, value) {
+		element.min = value;
+		element.placeholder = value;
+	};
+	
+	
+	function onTimeinChange () {
+	//	(this === timein) ? timeout.value = this.value : timein.value = this.value;
+		timein.value = timeout.value = this.value;
+	}
 
+	
+	function synchronizeFields (elem1, elem2, values1, values2, callback) {
+		var value1 = elem1.value;
+		
+		var position = values1.indexOf(value1);
+		console.log(position);
+		var value2 = values2[position];
+		console.log(value2);
+		callback(elem2, value2);
+	}	
+	
+	room_number.addEventListener('input', onRoomChange);
+	
+	function onRoomChange (e) { //(elem, value)
+		synchronizeFields(room_number, capacity, ["1", "2", "3", "100"], ["1", "2", "3", "0"], syncRooms);
+	}
+	
+	function syncRooms (element, value) {
+		value = +value;
+		disableAllOptions(element); 
+		enableOptions(value); 
+		
 		function enableOptions (num) {
-			if (num >= capacity.options.length) {
-				capacity.options[capacity.options.length - 1].disabled = false;
-				num = 0;
+			if (num === 0) {
+				element.querySelector('[value="0"]').disabled = false;
 			}
 
 			for (var i = 0; i < num; i++) {
-				capacity.options[i].disabled = false;
+				element.options[i].disabled = false;
 			}
 
-			capacity.value = num;
+			element.value = num; //выбираем опцию
 		}
 
 		function disableAllOptions (select) {
 			var options = [].slice.call(select.options);
 
 			options.forEach(function(item){
-			//  console.log(item);
 				item.setAttribute('disabled', 'true');
 			})
 		}
 	}
-
-
-	function onTypeChange (e) {
-	//	console.log(this.value);
-	//	console.log(price.min);
-
-		switch(this.value) {
-			case "flat":
-				price.min = 1000;
-				price.placeholder = 1000;
-				break;
-			case "house":
-				price.min = 5000;
-				price.placeholder = 5000;
-				break;
-			case "palace":
-				price.min = 10000;
-				price.placeholder = 10000;
-				break;
-			default:
-				price.min = 0;
-				price.placeholder = 0;
-				break;
-		}
-	}
-
-	function onTimeinChange (e) {
-	//	(this === timein) ? timeout.value = this.value : timein.value = this.value;
-		timein.value = timeout.value = this.value;
-	}
 	
-	function setAddress (position) {
-		address.value = "x: " + position.x + ", y: " + position.y;
-//		testAddress(position);
-	}
-	
-	//тестовая функция. Не нужна в финальной сборке. Отображает маркер на полученных координатах.
-	function testAddress (position) {
-		console.log(position);
-		var div = document.createElement('div');
-		div.style.position = 'absolute';
-		div.style.left = position.x + "px";
-		div.style.top = position.y + "px";
-		div.style.width = "1px";
-		div.style.height = "1px";
-		div.style.background = "lime";
-		div.style.outline = "1px solid black";
-		div.style.zIndex = "1001";
-		
-		window.map.mapElem.appendChild(div)
-	}
 	
 	window.form = {
 		noticeForm: noticeForm,
@@ -126,3 +157,29 @@
 		setAddress: setAddress
 	};
 })();
+
+
+	//Старая фция синхронизации цены (частный случай)
+//	function onTypeChangettt (e) {
+//	//	console.log(this.value);
+//	//	console.log(price.min);
+//
+//		switch(this.value) {
+//			case "flat":
+//				price.min = 1000;
+//				price.placeholder = 1000;
+//				break;
+//			case "house":
+//				price.min = 5000;
+//				price.placeholder = 5000;
+//				break;
+//			case "palace":
+//				price.min = 10000;
+//				price.placeholder = 10000;
+//				break;
+//			default:
+//				price.min = 0;
+//				price.placeholder = 0;
+//				break;
+//		}
+//	}
