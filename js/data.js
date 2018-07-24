@@ -6,6 +6,7 @@
 // Data module
 //	var adverts = generateAdverts(8);
 	var adverts, buttons;
+	var MAX_BUTTONS = 5;
 	window.backend.load(onLoad, onError);
 	
 
@@ -20,10 +21,12 @@
 
 	
 	function createButtons (adverts) {
+		var length = MAX_BUTTONS;
+		if(adverts.length < MAX_BUTTONS) length = advert.length;
 	//  var fragment = document.createDocumentFragment();
 		var buttonsArr = [];
 
-		for (var i = 0; i < adverts.length; i++) {
+		for (var i = 0; i < length; i++) {
 			var button = buttonTemplate.cloneNode(true);
 			buttonsArr.push(createButton(button, i));
 		}
@@ -32,6 +35,7 @@
 	}
 
 	function createButton(elem, i) {
+		console.log(window.data.adverts[i]);
 		// магические числа - смещение указателей на макете относительно низа стрелки
 		// x -25, y -61
 		var left = window.data.adverts[i].location.x;

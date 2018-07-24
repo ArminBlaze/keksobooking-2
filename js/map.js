@@ -6,6 +6,7 @@
 	var map = document.querySelector('.map');
 	var mapPins = map.querySelector('.map__pins');
 	var mainPin = mapPins.querySelector('.map__pin--main');
+	var mapFilters = map.querySelector('.map__filters');
 	
 	window.map = {
 		mapShowed: false,
@@ -24,6 +25,81 @@
 	mapPins.addEventListener('mousedown', function(e) {
 		e.preventDefault(); //отмена выделения карты
 	});
+	mapFilters.addEventListener('change', onFiltersChange);
+	
+	var filters = {
+		features: {}
+	};
+	
+	//собираем данные с измененных фильтров
+	function onFiltersChange (e) {
+//		console.log(e.target);
+		var key, value;
+//		console.log(e.target.nodeName);
+		key = e.target.id.split("-")[1];
+//		console.log(key);
+		
+		if(e.target.nodeName === "SELECT") {
+			value = e.target.value;
+//			console.log(value);
+			filters[key] = value;
+		} 
+		else {
+			value = e.target.checked;
+//			console.log(value);
+			filters.features[key] = value;
+		}
+		
+		console.log(filters);
+		filterAdverts(filters);
+	}
+	
+	
+	function filterAdverts (filters) {
+		var adverts = window.data.adverts;
+		var newAdverts = adverts.filter(function (elem) {
+			return filterAdvert(elem);
+		});
+		
+		console.log(newAdverts);
+		
+		function filterAdvert (advert) {
+			var offer = advert.offer;
+			var features = advert.offer.features;
+//			console.log(offer);
+			var check = true;
+			
+			for (var prop in filters) {
+				if (filters.hasOwnProperty(prop)) {
+//					console.log(prop + " " + filters[prop])
+					if(filters[prop] === "any") continue;
+					
+					if(prop === "price" && filters[prop] !== "any") check = filterPrice(offer.price, filters[prop]);
+					if(prop === "features") filterFeatures(offer.features, filters.features);
+					
+				}
+			}
+			
+			
+			return check;
+		}
+		
+		function filterPrice (advertPrice, filterPrice) {
+			var minPrice = 10000;
+			var maxPrice = 50000;
+			console.log(advertPrice + " " + filterPrice);
+			
+			if(filterPrice === "low") return (advertPrice < minPrice);
+			else if (filterPrice === "middle") return ( advertPrice >= minPrice && advertPrice <= maxPrice );
+			else if (filterPrice === "high") return (advertPrice >= maxPrice );
+		}
+		
+		function filterFeatures (advertFeatures, filterFeatures) {
+//			console.log(advertFeatures + " " + filterFeatures);
+		}
+	}
+	
+	
 
 
 	//функция активации карты и формы. Запускается однократно, а потом удаляет обработчик
