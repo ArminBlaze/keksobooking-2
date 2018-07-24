@@ -75,8 +75,8 @@
 					if(filters[prop] === "any") continue;
 					
 					if(prop === "price") check = filterPrice(offer[prop], filters[prop]);
-					if(prop === "type") check = filterType(offer[prop], filters[prop]);
-					if(prop === "rooms") check = filterRooms(offer[prop], filters[prop]);
+					if(prop === "type") check = filterEqual(offer[prop], filters[prop]);
+					if(prop === "rooms" || prop === "guests") check = filterMin(offer[prop], filters[prop]);
 					if(prop === "features") filterFeatures(offer.features, filters.features);
 					
 					if(check == false) break;
@@ -87,12 +87,12 @@
 			return check;
 		}
 		
-		function filterRooms (advertRoom, filterRoom) {
+		function filterMin (advertRoom, filterRoom) {
 			console.log(advertRoom + " " + filterRoom);
 			return advertRoom >= filterRoom;
 		}
 		
-		function filterType (advertType, filterType) {
+		function filterEqual (advertType, filterType) {
 //			console.log(advertType + " " + filterType);
 			return advertType === filterType;
 		}
