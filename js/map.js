@@ -74,14 +74,22 @@
 //					console.log(prop + " " + filters[prop])
 					if(filters[prop] === "any") continue;
 					
-					if(prop === "price" && filters[prop] !== "any") check = filterPrice(offer.price, filters[prop]);
+					if(prop === "price") check = filterPrice(offer[prop], filters[prop]);
+					if(prop === "type") check = filterType(offer[prop], filters[prop]);
 					if(prop === "features") filterFeatures(offer.features, filters.features);
 					
+					if(check == false) break;
 				}
 			}
 			
 			
 			return check;
+		}
+		
+		function filterType (advertType, filterType) {
+			console.log(advertType + " " + filterType);
+			return advertType === filterType;
+			
 		}
 		
 		function filterPrice (advertPrice, filterPrice) {
