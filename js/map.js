@@ -76,6 +76,7 @@
 					
 					if(prop === "price") check = filterPrice(offer[prop], filters[prop]);
 					if(prop === "type") check = filterType(offer[prop], filters[prop]);
+					if(prop === "rooms") check = filterRooms(offer[prop], filters[prop]);
 					if(prop === "features") filterFeatures(offer.features, filters.features);
 					
 					if(check == false) break;
@@ -86,16 +87,20 @@
 			return check;
 		}
 		
+		function filterRooms (advertRoom, filterRoom) {
+			console.log(advertRoom + " " + filterRoom);
+			return advertRoom >= filterRoom;
+		}
+		
 		function filterType (advertType, filterType) {
-			console.log(advertType + " " + filterType);
+//			console.log(advertType + " " + filterType);
 			return advertType === filterType;
-			
 		}
 		
 		function filterPrice (advertPrice, filterPrice) {
 			var minPrice = 10000;
 			var maxPrice = 50000;
-			console.log(advertPrice + " " + filterPrice);
+//			console.log(advertPrice + " " + filterPrice);
 			
 			if(filterPrice === "low") return (advertPrice < minPrice);
 			else if (filterPrice === "middle") return ( advertPrice >= minPrice && advertPrice <= maxPrice );
