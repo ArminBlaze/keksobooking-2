@@ -115,12 +115,28 @@
 			else if (filterPrice === "high") return (advertPrice >= maxPrice );
 		}
 		
-	}
+	};
+	
+	function debounce (f, ms) {
+		var timer;
+
+		return function() {
+			if(timer) clearTimeout(timer);
+
+			var self = this;
+			var args = [].slice.call(arguments);
+
+			timer = setTimeout(function() {
+				f.apply(self, args);
+			}, ms, args);
+		};
+	};
 	
 	window.filters = {
 		filters: filters,
 		createFilters: createFilters,
 		filterAdverts: filterAdverts,
-		newAdverts: newAdverts
+		newAdverts: newAdverts,
+		debounce: debounce
 	}
 })();

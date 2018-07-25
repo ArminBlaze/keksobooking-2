@@ -25,10 +25,16 @@
 	mapPins.addEventListener('mousedown', function(e) {
 		e.preventDefault(); //отмена выделения карты
 	});
-	mapFilters.addEventListener('change', onFiltersChange);
+	
+	var debouncedOnFiltersChange = window.filters.debounce(onFiltersChange, 500);
+	mapFilters.addEventListener('change', debouncedOnFiltersChange);
+	
+	
+//	var updateWizardsWithDelay = window.util.debounce(window.setup.updateWizards, 500);
 	
 	function onFiltersChange (e) {
 		var filters = window.filters.createFilters(e);
+		
 		window.data.filteredAdverts = window.filters.filterAdverts(filters);
 		// отображать отфильтрованные функцией отрисовки пинов
 		window.data.filteredButtons = window.data.createButtons(window.data.filteredAdverts);
