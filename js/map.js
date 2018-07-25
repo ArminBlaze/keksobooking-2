@@ -6,34 +6,46 @@
 	var map = document.querySelector('.map');
 	var mapPins = map.querySelector('.map__pins');
 	var mainPin = mapPins.querySelector('.map__pin--main');
+	var mapFilters = map.querySelector('.map__filters');
 	
 	window.map = {
 		mapShowed: false,
 		advertCard: null,
 		activePin: null,
 		mapElem: map,
-		showMap: showMap,
+		showMap: initMap,
 		mapPins: mapPins,
 		mainPin: mainPin
 	};
 	
 	
 	mainPin.addEventListener('mouseup', onMainPinMouseUp);
-	mapPins.addEventListener('click', onMapPinsClick);
+	
 	map.addEventListener('card-closed', onCardClose);
 	mapPins.addEventListener('mousedown', function(e) {
 		e.preventDefault(); //отмена выделения карты
 	});
-
+	
+	var debouncedOnFiltersChange = window.filters.debounce(onFiltersChange, 500);
+	mapFilters.addEventListener('change', debouncedOnFiltersChange);
+	
+	
+//	var updateWizardsWithDelay = window.util.debounce(window.setup.updateWizards, 500);
+	
+	function onFiltersChange (e) {
+		var filters = window.filters.createFilters(e);
+		
+		window.data.filteredAdverts = window.filters.filterAdverts(filters);
+		// отображать отфильтрованные функцией отрисовки пинов
+		window.data.filteredButtons = window.data.createButtons(window.data.filteredAdverts);
+		window.map.pin.drawButtons(window.data.filteredButtons);
+		
+	}
 
 	//функция активации карты и формы. Запускается однократно, а потом удаляет обработчик
 	function onMainPinMouseUp (e) {
-		showMap();
-		window.map.pin.drawButtons();
-		mainPin.style.zIndex = 1000; // показывать над другими элементами
-		//убирать слушателья mouseup?
-		mainPin.removeEventListener('mouseup', onMainPinMouseUp);
-		mainPin.addEventListener('mousedown', window.drag.onDragstart);
+		if(!window.data.adverts) return;
+		initMap();
 	};
 
 	//обработка кликов по пинам
@@ -45,6 +57,7 @@
 			target = target.parentNode;
 		}
 		if (target == this) return;
+		console.log(target);
 
 		//логика
 		showCard(target);
@@ -70,13 +83,22 @@
 	}
 
 	
-	function showMap () {
+	function initMap () {
 		map.classList.remove('map--faded'); //
 		window.form.noticeForm.classList.remove('notice__form--disabled'); //
 		window.form.fieldsets.forEach(function(item){
 			item.removeAttribute('disabled');
 		});
 		window.mapShowed = true;
+		
+		window.map.pin.drawButtons(window.data.buttons);
+//		window.data.init();
+		mainPin.style.zIndex = 1000; // показывать над другими элементами
+		//убирать слушателья mouseup?
+		mainPin.removeEventListener('mouseup', onMainPinMouseUp);
+		mainPin.addEventListener('mousedown', window.drag.onDragstart);
+		
+		mapPins.addEventListener('click', onMapPinsClick);
 	}
 	
 	

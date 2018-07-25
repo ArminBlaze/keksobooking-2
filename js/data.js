@@ -6,7 +6,8 @@
 // Data module
 //	var adverts = generateAdverts(8);
 	var adverts, buttons;
-	window.backend.load(onLoad, onError);
+	var MAX_BUTTONS = 5;
+	window.backend.load(onLoad, onError)
 	
 
 	var map = document.querySelector('.map');
@@ -17,26 +18,29 @@
 
 	
 	var mapCardTemplate = template.querySelector('.map__card');
-
+	
 	
 	function createButtons (adverts) {
+		var length = MAX_BUTTONS;
+		if(adverts.length < MAX_BUTTONS) length = adverts.length;
 	//  var fragment = document.createDocumentFragment();
 		var buttonsArr = [];
 
-		for (var i = 0; i < adverts.length; i++) {
+		for (var i = 0; i < length; i++) {
 			var button = buttonTemplate.cloneNode(true);
-			buttonsArr.push(createButton(button, i));
+			buttonsArr.push(createButton(button, i, adverts));
 		}
 
 		return buttonsArr;
 	}
 
-	function createButton(elem, i) {
+	function createButton(elem, i, adverts) {
+//		console.log(adverts[i]);
 		// магические числа - смещение указателей на макете относительно низа стрелки
 		// x -25, y -61
-		var left = window.data.adverts[i].location.x;
-		var top = window.data.adverts[i].location.y;
-		var avatar = window.data.adverts[i].author.avatar;
+		var left = adverts[i].location.x;
+		var top = adverts[i].location.y;
+		var avatar = adverts[i].author.avatar;
 
 		elem.style = 'left:' + left + 'px; top:' + top + 'px;'
 		elem.querySelector('img').src = avatar;
@@ -54,7 +58,9 @@
 	//06 - XHR
 	function onLoad (data) {
 		window.data.adverts = data;
+		window.data.filteredAdverts = window.data.adverts;
 		window.data.buttons = createButtons(data);
+		window.data.filteredButtons = window.data.buttons;
 	}
 	
 	
@@ -104,10 +110,20 @@
 	window.data = {
 		buttons: buttons,
 		adverts: adverts,
-		onError: onError
+		onError: onError,
+		createButtons: createButtons
 	};
 
 })();
+
+
+
+
+
+
+
+
+
 
 
 

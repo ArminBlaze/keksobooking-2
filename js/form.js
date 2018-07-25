@@ -1,6 +1,5 @@
 'use strict';
 
-
 (function () { 
 		///////////////////////////////
 	// Модуль формы
@@ -91,6 +90,7 @@
 	timein.addEventListener('input', onTimeinChange);
 	timeout.addEventListener('input', onTimeinChange);
 	type.addEventListener('input', onTypeChange);
+	room_number.addEventListener('input', onRoomChange);
 	
 	function onTypeChange (e) {
 		synchronizeFields(type, price, ["flat", "house", "palace", "bungalo"], [1000, 5000, 10000, 0], syncValueWithMin);
@@ -101,12 +101,14 @@
 		element.placeholder = value;
 	};
 	
-	
 	function onTimeinChange () {
 	//	(this === timein) ? timeout.value = this.value : timein.value = this.value;
 		timein.value = timeout.value = this.value;
 	}
-
+	
+	function onRoomChange (e) { //(elem, value)
+		synchronizeFields(room_number, capacity, ["1", "2", "3", "100"], ["1", "2", "3", "0"], syncRooms);
+	}
 	
 	function synchronizeFields (elem1, elem2, values1, values2, callback) {
 		var value1 = elem1.value;
@@ -117,12 +119,6 @@
 		console.log(value2);
 		callback(elem2, value2);
 	}	
-	
-	room_number.addEventListener('input', onRoomChange);
-	
-	function onRoomChange (e) { //(elem, value)
-		synchronizeFields(room_number, capacity, ["1", "2", "3", "100"], ["1", "2", "3", "0"], syncRooms);
-	}
 	
 	function syncRooms (element, value) {
 		value = +value;
