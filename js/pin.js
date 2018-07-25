@@ -5,15 +5,23 @@
 	// Pin Module
 	
 	
-	function drawButtons () {
-		var buttons = window.data.buttons;
-		
+	function drawButtons (buttons) {
 		var fragment = document.createDocumentFragment();
 		for (var i = 0; i < buttons.length; i++) {
 			fragment.appendChild(buttons[i]);
 		}
 //		return fragment;
+//		window.map.mapPins.innerHTML = "";
+		deleteButtons();
 		window.map.mapPins.appendChild(fragment);
+	}
+	
+	function deleteButtons () {
+		var buttons = window.map.mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
+		
+		buttons.forEach(function(item){
+			item.parentNode.removeChild(item);
+		});
 	}
 	
 	function deselectPin () {

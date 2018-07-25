@@ -27,98 +27,20 @@
 	});
 	mapFilters.addEventListener('change', onFiltersChange);
 	
-	var filters = {
-		features: {}
-	};
-	
-	//собираем данные с измененных фильтров
 	function onFiltersChange (e) {
-//		console.log(e.target);
-		var key, value;
-//		console.log(e.target.nodeName);
-		key = e.target.id.split("-")[1];
-//		console.log(key);
+		var filters = window.filters.createFilters(e);
+		window.data.filteredAdverts = window.filters.filterAdverts(filters);
+		// отображать отфильтрованные функцией отрисовки пинов
+		window.data.filteredButtons = window.data.createButtons(window.data.filteredAdverts);
+		window.map.pin.drawButtons(window.data.filteredButtons);
 		
-		if(e.target.nodeName === "SELECT") {
-			value = e.target.value;
-//			console.log(value);
-			filters[key] = value;
-		} 
-		else {
-			value = e.target.checked;
-//			console.log(value);
-			filters.features[key] = value;
-		}
-		
-		console.log(filters);
-		filterAdverts(filters);
 	}
-	
-	
-	function filterAdverts (filters) {
-		var adverts = window.data.adverts;
-		var newAdverts = adverts.filter(function (elem) {
-			return filterAdvert(elem);
-		});
-		
-		console.log(newAdverts);
-		
-		function filterAdvert (advert) {
-			var offer = advert.offer;
-			var features = advert.offer.features;
-//			console.log(offer);
-			var check = true;
-			
-			for (var prop in filters) {
-				if (filters.hasOwnProperty(prop)) {
-//					console.log(prop + " " + filters[prop])
-					if(filters[prop] === "any") continue;
-					
-					if(prop === "price") check = filterPrice(offer[prop], filters[prop]);
-					if(prop === "type") check = filterEqual(offer[prop], filters[prop]);
-					if(prop === "rooms" || prop === "guests") check = filterMin(offer[prop], filters[prop]);
-					if(prop === "features") filterFeatures(offer.features, filters.features);
-					
-					if(check == false) break;
-				}
-			}
-			
-			
-			return check;
-		}
-		
-		function filterMin (advertRoom, filterRoom) {
-			console.log(advertRoom + " " + filterRoom);
-			return advertRoom >= filterRoom;
-		}
-		
-		function filterEqual (advertType, filterType) {
-//			console.log(advertType + " " + filterType);
-			return advertType === filterType;
-		}
-		
-		function filterPrice (advertPrice, filterPrice) {
-			var minPrice = 10000;
-			var maxPrice = 50000;
-//			console.log(advertPrice + " " + filterPrice);
-			
-			if(filterPrice === "low") return (advertPrice < minPrice);
-			else if (filterPrice === "middle") return ( advertPrice >= minPrice && advertPrice <= maxPrice );
-			else if (filterPrice === "high") return (advertPrice >= maxPrice );
-		}
-		
-		function filterFeatures (advertFeatures, filterFeatures) {
-//			console.log(advertFeatures + " " + filterFeatures);
-		}
-	}
-	
-	
-
 
 	//функция активации карты и формы. Запускается однократно, а потом удаляет обработчик
 	function onMainPinMouseUp (e) {
 		showMap();
-		window.map.pin.drawButtons();
+		window.map.pin.drawButtons(window.data.buttons);
+//		window.data.init();
 		mainPin.style.zIndex = 1000; // показывать над другими элементами
 		//убирать слушателья mouseup?
 		mainPin.removeEventListener('mouseup', onMainPinMouseUp);
@@ -134,6 +56,7 @@
 			target = target.parentNode;
 		}
 		if (target == this) return;
+		console.log(target);
 
 		//логика
 		showCard(target);
