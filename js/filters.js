@@ -38,6 +38,7 @@
 			return filterAdvert(elem);
 		});
 		
+		
 		console.log(newAdverts);
 		return newAdverts;
 		
@@ -55,12 +56,42 @@
 					if(prop === "price") check = filterPrice(offer[prop], filters[prop]);
 					if(prop === "type") check = filterEqual(offer[prop], filters[prop]);
 					if(prop === "rooms" || prop === "guests") check = filterMin(offer[prop], filters[prop]);
-					if(prop === "features") filterFeatures(offer.features, filters.features);
+					if(prop === "features") check = filterFeatures(offer.features, filters.features);
 					
 					if(check == false) break;
 				}
 			}
 			
+			return check;
+		}
+		
+		function filterFeatures (advertFeatures, filterFeatures) {
+			var store = {}; // объект для коллекции и быстрого поиска свойства в нём
+			
+			advertFeatures.forEach(function(key) {
+				store[key] = true;
+			})
+			
+			console.log("---");
+			console.log(store);
+
+//			for (var i = 0; i < advertFeatures.length; i++) {
+//				var key = advertFeatures[i]; // для каждого элемента создаём свойство
+//				 // значение здесь не важно
+//			}
+			
+			console.log(advertFeatures, filterFeatures);
+			var check = true;
+			
+			for (var feature in filterFeatures) {
+				if (filterFeatures.hasOwnProperty(feature)) {
+					if(filterFeatures[feature] === false) continue;
+					
+					if(!store[feature]) check = false;
+					if(check == false) break;
+				}
+			}
+				
 			return check;
 		}
 		
@@ -84,9 +115,6 @@
 			else if (filterPrice === "high") return (advertPrice >= maxPrice );
 		}
 		
-		function filterFeatures (advertFeatures, filterFeatures) {
-//			console.log(advertFeatures + " " + filterFeatures);
-		}
 	}
 	
 	window.filters = {

@@ -35,7 +35,7 @@
 	}
 
 	function createButton(elem, i, adverts) {
-		console.log(adverts[i]);
+//		console.log(adverts[i]);
 		// магические числа - смещение указателей на макете относительно низа стрелки
 		// x -25, y -61
 		var left = adverts[i].location.x;
