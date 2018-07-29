@@ -1,6 +1,6 @@
 'use strict';
 
-(function () { 
+;(function () { 
 	var filters = {
 		features: {}
 	};
@@ -64,7 +64,7 @@
 					if(filterFeatures[feature] === false) continue;
 					
 					if(!store[feature]) check = false;
-					if(check == false) break;
+					if(check === false) break;
 				}
 			}
 				

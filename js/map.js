@@ -2,7 +2,7 @@
 // Map Module
 'use strict';
 
-(function () { 
+;(function () { 
 	var map = document.querySelector('.map');
 	var mapPins = map.querySelector('.map__pins');
 	var mainPin = mapPins.querySelector('.map__pin--main');

@@ -1,7 +1,7 @@
 'use strict';
 
 
-(function () { 
+;(function () { 
 /////////////////////////////////////
 // Data module
 //	var adverts = generateAdverts(8);

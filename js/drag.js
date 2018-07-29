@@ -1,6 +1,6 @@
 'use strict';
 
-(function () { 
+;(function () { 
 	var map = window.map.mapElem;
 	var mainPin = window.map.mainPin;
 	

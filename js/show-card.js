@@ -1,7 +1,7 @@
 'use strict';
 
 
-(function () { 
+;(function () { 
 		///////////////////////////
 	// Card Module
 	
