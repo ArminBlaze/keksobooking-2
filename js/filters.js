@@ -1,13 +1,19 @@
 'use strict';
 
 ;(function () { 
+//	var mapFilters = document.querySelector('.map__filters');
+	
 	var filters = {
 		features: {}
 	};
+	
 	var newAdverts = [];
 	
 	//собираем данные с измененных фильтров
 	function createFilters (e) {
+		//можно собирать по селектору все checked элементы, преобразовывать в массив и фильтровать+маппировать
+//		var features = mapFilters.querySelectorAll('input:checked');
+		
 		var key, value;
 		key = e.target.id.split("-")[1];
 		
@@ -20,9 +26,11 @@
 			filters.features[key] = value;
 		}
 		
+		console.log(filters);
 		return filters;
 	}
 	
+	//фильтруем объявления по собранным фильтрам
 	function filterAdverts (filters) {
 		var adverts = window.data.adverts;
 		newAdverts = adverts.filter(function (elem) {
@@ -37,16 +45,16 @@
 			var check = true;
 			
 			for (var prop in filters) {
-				if (filters.hasOwnProperty(prop)) {
-					if(filters[prop] === "any") continue;
-					
-					if(prop === "price") check = filterPrice(offer[prop], filters[prop]);
-					if(prop === "type") check = filterEqual(offer[prop], filters[prop]);
-					if(prop === "rooms" || prop === "guests") check = filterMin(offer[prop], filters[prop]);
-					if(prop === "features") check = filterFeatures(offer.features, filters.features);
-					
-					if(check == false) break;
-				}
+//				if (!filters.hasOwnProperty(prop)) continue;
+				if(filters[prop] === "any") continue;
+
+				if(prop === "price") check = filterPrice(offer[prop], filters[prop]);
+				if(prop === "type") check = filterEqual(offer[prop], filters[prop]);
+				if(prop === "rooms" || prop === "guests") check = filterMin(offer[prop], filters[prop]);
+				if(prop === "features") check = filterFeatures(offer.features, filters.features);
+
+				if(check == false) break;
+				
 			}
 			return check;
 		}
@@ -60,12 +68,11 @@
 			})
 			
 			for (var feature in filterFeatures) {
-				if (filterFeatures.hasOwnProperty(feature)) {
+//				if (!filters.hasOwnProperty(prop)) continue;
 					if(filterFeatures[feature] === false) continue;
 					
 					if(!store[feature]) check = false;
 					if(check === false) break;
-				}
 			}
 				
 			return check;
