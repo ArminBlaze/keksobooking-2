@@ -5,9 +5,10 @@
 	// Модуль формы
 	
 	//синхронизация полей ввода
-	var noticeForm = document.querySelector('.notice__form');
+	var form = document.querySelector('.notice__form');
+	var form = document.querySelector('.notice__form');
 
-	var fieldsets = [].slice.call(noticeForm.querySelectorAll('fieldset'));
+	var fieldsets = [].slice.call(form.querySelectorAll('fieldset'));
 
 	fieldsets.forEach(function(item){
 	//  console.log(item);
@@ -25,7 +26,6 @@
 	
 
 	// валидация формы
-	var form = document.querySelector('.notice__form');
 	var submitButton = form.querySelector('.form__submit');
 
 	var inputs = form.querySelectorAll('input:not([type="submit"])');
@@ -148,7 +148,7 @@
 	
 	
 	window.form = {
-		noticeForm: noticeForm,
+		noticeForm: form,
 		fieldsets: fieldsets,
 		setAddress: setAddress
 	};
