@@ -14,15 +14,10 @@
 	var DEFAULT_AVATAR = 'img/muffin.png';
 	
 	
-	window.form.noticeForm.addEventListener('reset', onFormReset);
-	window.form.noticeForm.addEventListener('submit', onFormSubmit);
 	avatarInput.addEventListener('change', onAvatarInputChange);
 	fotosInput.addEventListener('change', onFotosInputChange);
+	window.form.noticeForm.addEventListener('reset', onFormReset);
 	
-	function onFormReset (e) {
-		console.log('форма сброшена');
-		deletePreviews();
-	}
 	
 	function onAvatarInputChange (e) {
 		console.log("onAvatarInputChange");
@@ -36,7 +31,6 @@
 		}
 	};
 	
-	
 	function onFotosInputChange (e) {
 		console.log("onFotosInputChange");
 		var files = fotosInput.files;
@@ -47,6 +41,20 @@
 		if(filteredFiles.length > 0) {
 			drawFiles(filteredFiles, onFotosLoad);
 		}
+	};
+	
+	
+	function onAvatarLoad (reader) {
+		avatarPreview.src = reader.result;
+		avatarPreview.style.height = "auto";
+	};
+	
+	function onFotosLoad (reader) {
+		var img = document.createElement('img');
+		img.style.width = "100px";
+		img.style.maxHeight = "100px";
+		img.src = reader.result;
+		fotosBlock.appendChild(img);
 	};
 	
 	
@@ -74,7 +82,6 @@
 		return newFiles;
 	};
 	
-	
 	function drawFiles (files, onLoad) {
 		files.forEach(function(item){
 			var reader = new FileReader();
@@ -95,20 +102,12 @@
 		imgs.forEach(function(item) {
 			item.parentNode.removeChild(item);
 		});
-	}
-	
-	
-	function onAvatarLoad (reader) {
-		avatarPreview.src = reader.result;
-		avatarPreview.style.height = "auto";
 	};
 	
-	function onFotosLoad (reader) {
-		var img = document.createElement('img');
-		img.style.width = "100px";
-		img.style.maxHeight = "100px";
-		img.src = reader.result;
-		fotosBlock.appendChild(img);
-	}
+	
+	function onFormReset (e) {
+		console.log('форма сброшена');
+		deletePreviews();
+	};
 	
 })();
