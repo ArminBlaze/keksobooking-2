@@ -20,7 +20,7 @@
 	
 	
 	function onAvatarInputChange (e) {
-		console.log("onAvatarInputChange");
+//		console.log("onAvatarInputChange");
 		var files = avatarInput.files;
 		if(files.length === 0) return;
 		
@@ -32,7 +32,7 @@
 	};
 	
 	function onFotosInputChange (e) {
-		console.log("onFotosInputChange");
+//		console.log("onFotosInputChange");
 		var files = fotosInput.files;
 		if(files.length === 0) return;
 		
@@ -55,30 +55,39 @@
 		img.style.maxHeight = "100px";
 		img.src = reader.result;
 		fotosBlock.appendChild(img);
+		
+		generateEvent(fotosInput);
+		
+		function generateEvent (elem) {
+	//		var event = new CustomEvent('card-closed', {bubbles: true});	//Edge > 11 IE
+			var event = document.createEvent("Event"); //IE 9+
+			event.initEvent("image-added", true, true); //IE 9+
+			elem.dispatchEvent(event);
+		}
 	};
 	
 	
 	function testFilesType (files) {
-		console.log(files);
+//		console.log(files);
 		
 		files = [].slice.call(files);
 		
 		var newFiles = files.filter(function(item) {
 			var fileName = item.name.toLowerCase(); //имя файла
-			console.log(fileName);
+//			console.log(fileName);
 			var fileExt = fileName.split('.').pop();	//расширение добавленного в инпут файла
-			console.log(fileExt);
+//			console.log(fileExt);
 
 			var matches = FILE_TYPES.some(function(item) { //есть ли расширение есть среди разрешенных
-				console.log(fileExt, item);
+//				console.log(fileExt, item);
 				return fileExt === item;
 			});
-			console.log(matches);
+//			console.log(matches);
 			return matches;
 		});
 		
 		
-		console.log(newFiles);
+//		console.log(newFiles);
 		return newFiles;
 	};
 	
