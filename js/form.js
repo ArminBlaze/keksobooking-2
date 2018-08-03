@@ -37,8 +37,22 @@
 		e.preventDefault();
 		
 		var data = new FormData(this);
+//		var data = {};
+//		var data = new FormData();
+		
+//		for (var i = 0, ii = form.length; i < ii; ++i) {
+//			var input = form[i];
+//			if (input.name) {
+////				data[input.name] = input.value;
+//				data.append(input.name, input.value)
+//			}
+//		}
+		
+		console.log(data);
+		
 		
 		var sortedImages = window.imagesSort.sortFilesInInput();
+//		console.log(sortedImages.length);
 		
 //		var formData    = new FormData(this);
 //		var formKeys    = formData.keys();
@@ -54,10 +68,15 @@
 //			data.append('files' + i, storedFiles[item_number]);
 //		}
 		
+//		data.files = {};
 //		
-		sortedImages.forEach(function(item) {
+		sortedImages.forEach(function(item, i) {
 			data.append('files', item);
+//			data.files[i] = item;
 		});
+		
+//		data.append('testField', 'test');
+//		data.append('files', sortedImages[0]);
 		
 		console.log(data.getAll('files'));
 		

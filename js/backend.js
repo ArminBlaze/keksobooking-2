@@ -28,6 +28,7 @@
 				}
 			} 
 			else {
+				console.log(xhr.response);
 				options.onError('Ошибка сервера: ' + xhr.status + ' ' + xhr.statusText);
 			}
 		});
