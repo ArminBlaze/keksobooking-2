@@ -33,7 +33,7 @@
 	var draggedItem = null;
 	
 	fotosBlock.addEventListener('dragstart', function(e) {
-		console.log(e.target.tagName);
+//		console.log(e.target.tagName);
 		if(e.target.tagName.toLowerCase() !== 'img') {
 			return;
 		}
@@ -57,12 +57,12 @@
 		
 		if(!checkCell(e.target)) return;
 		
-		console.log(e.dataTransfer.getData('parent'));
+//		console.log(e.dataTransfer.getData('parent'));
 		if(e.dataTransfer.getData('parent') === 'fotosBlock') {
 			//определяем позицию таргета и draggedItem
 			var targetPos = calculatePositionInParent(e.target);
 			var dragPos = calculatePositionInParent(draggedItem);
-			console.log(targetPos, dragPos);
+//			console.log(targetPos, dragPos);
 			
 			if(targetPos < dragPos) { //таргет до нашего - ставим наш до таргета
 				e.target.parentNode.parentNode.insertBefore(draggedItem.parentNode, e.target.parentNode);
@@ -71,12 +71,37 @@
 				e.target.parentNode.parentNode.insertBefore(draggedItem.parentNode, e.target.parentNode.nextSibling);
 			}
 			
-			console.log(fotosInput.files);
-			console.log(fotosInput.files[0]);
+			
 		}
 		
 		draggedItem = null;
+//		sortFilesInInput();
 	});
+	
+	function sortFilesInInput () {
+		var divs = fotosBlock.querySelectorAll('div[data-number]');
+		console.log(divs);
+		console.log(fotosInput.files);
+		
+		var files = fotosInput.files;
+		var sortedFiles = [];
+//		files = [].slice.call(files);
+		
+		divs.forEach(function(item, i){
+			var pos = item.getAttribute('data-number');
+			console.log(pos);
+			sortedFiles[i] = files[pos];
+		});
+		
+		console.log(sortedFiles);
+		
+		return(sortedFiles);
+		
+//		fotosInput.files = sortedFiles;
+		
+//		console.log(fotosInput.files);
+//		console.log(fotosInput.files[0]);
+	}
 	
 	function calculatePositionInParent (elem) {
 		for(var i in elem.parentNode.parentNode.children) {
@@ -175,4 +200,8 @@
 //		
 //		return true;
 //	}
+	
+	window.imagesSort = {
+		sortFilesInInput: sortFilesInInput
+	};
 })();

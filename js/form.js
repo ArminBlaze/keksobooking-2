@@ -6,7 +6,7 @@
 	
 	//синхронизация полей ввода
 	var form = document.querySelector('.notice__form');
-	var form = document.querySelector('.notice__form');
+//	var form = document.querySelector('.notice__form');
 
 	var fieldsets = [].slice.call(form.querySelectorAll('fieldset'));
 
@@ -35,7 +35,33 @@
 	
 	function onFormSubmit (e) {
 		e.preventDefault();
-		window.backend.save(new FormData(this), onLoad, window.data.onError)
+		
+		var data = new FormData(this);
+		
+		var sortedImages = window.imagesSort.sortFilesInInput();
+		
+//		var formData    = new FormData(this);
+//		var formKeys    = formData.keys();
+//		var formEntries = formData.entries();
+//
+//		do {
+//			console.log(formEntries.next().value);
+//		} while (!formKeys.next().done)
+//		console.log(data.getAll());
+		
+//		for (var i in items){
+//			var item_number = items[i];
+//			data.append('files' + i, storedFiles[item_number]);
+//		}
+		
+//		
+		sortedImages.forEach(function(item) {
+			data.append('files', item);
+		});
+		
+		console.log(data.getAll('files'));
+		
+		window.backend.save(data, onLoad, window.data.onError);
 	}
 	
 	function onLoad (data) {	//при успешной отправке данных на сервер
