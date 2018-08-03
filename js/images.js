@@ -27,7 +27,8 @@
 		var filteredFiles = testFilesType(files);
 		
 		if(filteredFiles.length > 0) {
-			drawFiles(filteredFiles, onAvatarLoad);
+			
+			generatePreviews(filteredFiles, onAvatarLoad);
 		}
 	};
 	
@@ -39,32 +40,63 @@
 		var filteredFiles = testFilesType(files);
 		
 		if(filteredFiles.length > 0) {
-			drawFiles(filteredFiles, onFotosLoad);
+			generateEmptyDivs(filteredFiles.length);
+			generatePreviews(filteredFiles, onFotosLoad);
 		}
 	};
 	
+	function generatePreviews (files, onLoad) {
+		files.forEach(function(item, i, arr){
+			var reader = new FileReader();
+			
+			reader.addEventListener('load', function() {
+				onLoad(reader, i, arr.length);
+			});
+			
+			reader.readAsDataURL(item);
+		});
+	};
 	
 	function onAvatarLoad (reader) {
 		avatarPreview.src = reader.result;
 		avatarPreview.style.height = "auto";
 	};
 	
-	function onFotosLoad (reader) {
+	function onFotosLoad (reader, i, length) {
 		var img = document.createElement('img');
 		img.style.width = "100px";
 		img.style.maxHeight = "100px";
 		img.src = reader.result;
-		fotosBlock.appendChild(img);
+		img.setAttribute('data-number', i);
+		drawOrderedPreview(img, i, length)
 		
 		generateEvent(fotosInput);
-		
-		function generateEvent (elem) {
-	//		var event = new CustomEvent('card-closed', {bubbles: true});	//Edge > 11 IE
-			var event = document.createEvent("Event"); //IE 9+
-			event.initEvent("image-added", true, true); //IE 9+
-			elem.dispatchEvent(event);
-		}
 	};
+	
+	function drawOrderedPreview (img, i, length) {
+//		fotosBlock.appendChild(img);
+		fotosBlock.querySelector('[data-number="' + i + '"]').appendChild(img);
+		
+	};
+	
+	function generateEmptyDivs (length) {
+		console.log("fragment");
+		var fragment = document.createDocumentFragment();
+		for(var i = 0; i < length; i++) {
+			var div = document.createElement('div');
+			div.setAttribute('data-number', i);
+			fragment.appendChild(div);
+		}
+		console.log(fragment);
+		fotosBlock.appendChild(fragment);
+	}
+	
+	function generateEvent (elem) {
+//		var event = new CustomEvent('card-closed', {bubbles: true});	//Edge > 11 IE
+		var event = document.createEvent("Event"); //IE 9+
+		event.initEvent("image-added", true, true); //IE 9+
+		elem.dispatchEvent(event);
+	}
 	
 	
 	function testFilesType (files) {
@@ -91,24 +123,14 @@
 		return newFiles;
 	};
 	
-	function drawFiles (files, onLoad) {
-		files.forEach(function(item){
-			var reader = new FileReader();
-			
-			reader.addEventListener('load', function() {
-				onLoad(reader);
-			});
-			
-			reader.readAsDataURL(item);
-		});
-	};
+	
 	
 	function deletePreviews	() {
 		avatarPreview.src = DEFAULT_AVATAR;
 		
-		var imgs = fotosBlock.querySelectorAll('img');
-		imgs = [].slice.call(imgs);
-		imgs.forEach(function(item) {
+		var divs = fotosBlock.querySelectorAll('div[data-number]');
+		divs = [].slice.call(divs);
+		divs.forEach(function(item) {
 			item.parentNode.removeChild(item);
 		});
 	};

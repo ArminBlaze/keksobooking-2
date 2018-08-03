@@ -65,6 +65,8 @@
 				e.target.parentNode.insertBefore(draggedItem, e.target.nextSibling);
 			}
 			
+			console.log(fotosInput.files);
+			console.log(fotosInput.files[0]);
 		}
 		
 		draggedItem = null;
