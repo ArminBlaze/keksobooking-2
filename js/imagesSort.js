@@ -18,10 +18,14 @@
 		var files = fotosInput.files;
 		if(files.length === 0) return;
 		
+//		var images = fotosBlock.querySelectorAll('div[data-number]');
 		var images = fotosBlock.querySelectorAll('img');
 		images = [].slice.call(images);
 		images.forEach(function(item){
-			if(!item.classList.contains('form__foto')) item.classList.add('form__foto');
+			if(!item.classList.contains('form__foto')) {
+				item.classList.add('form__foto');
+				item.setAttribute('draggable', 'true');
+			}
 		});
 	};
 	
@@ -29,13 +33,15 @@
 	var draggedItem = null;
 	
 	fotosBlock.addEventListener('dragstart', function(e) {
+		console.log(e.target.tagName);
 		if(e.target.tagName.toLowerCase() !== 'img') {
 			return;
 		}
 		
+		
 		draggedItem = e.target;
 		//перетаскиваем как текст, значение - alt картинки
-		e.dataTransfer.setData('text/plain', e.target.alt);
+		e.dataTransfer.setData('text/plain', draggedItem.getAttribute('data-number'));
 		e.dataTransfer.setData('parent', 'fotosBlock');
 		fotosBlock.style.outline = "2px dashed #ff6d51";
 	});
@@ -59,10 +65,10 @@
 			console.log(targetPos, dragPos);
 			
 			if(targetPos < dragPos) { //таргет до нашего - ставим наш до таргета
-				e.target.parentNode.insertBefore(draggedItem, e.target);
+				e.target.parentNode.parentNode.insertBefore(draggedItem.parentNode, e.target.parentNode);
 			}
 			else { //если после - ставим наш после таргета
-				e.target.parentNode.insertBefore(draggedItem, e.target.nextSibling);
+				e.target.parentNode.parentNode.insertBefore(draggedItem.parentNode, e.target.parentNode.nextSibling);
 			}
 			
 			console.log(fotosInput.files);
@@ -73,8 +79,8 @@
 	});
 	
 	function calculatePositionInParent (elem) {
-		for(var i in elem.parentNode.children) {
-        if(elem.parentNode.children[i] === elem) return i;
+		for(var i in elem.parentNode.parentNode.children) {
+        if(elem.parentNode.parentNode.children[i] === elem.parentNode) return i;
     }
 	}
 	

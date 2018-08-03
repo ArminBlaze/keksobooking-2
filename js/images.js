@@ -27,7 +27,6 @@
 		var filteredFiles = testFilesType(files);
 		
 		if(filteredFiles.length > 0) {
-			
 			generatePreviews(filteredFiles, onAvatarLoad);
 		}
 	};
@@ -40,6 +39,7 @@
 		var filteredFiles = testFilesType(files);
 		
 		if(filteredFiles.length > 0) {
+			deletePreviews();
 			generateEmptyDivs(filteredFiles.length);
 			generatePreviews(filteredFiles, onFotosLoad);
 		}
@@ -123,11 +123,11 @@
 		return newFiles;
 	};
 	
-	
+	function deleteAvatar () {
+		avatarPreview.src = DEFAULT_AVATAR;
+	}
 	
 	function deletePreviews	() {
-		avatarPreview.src = DEFAULT_AVATAR;
-		
 		var divs = fotosBlock.querySelectorAll('div[data-number]');
 		divs = [].slice.call(divs);
 		divs.forEach(function(item) {
@@ -138,6 +138,7 @@
 	
 	function onFormReset (e) {
 		console.log('форма сброшена');
+		deleteAvatar();
 		deletePreviews();
 	};
 	
