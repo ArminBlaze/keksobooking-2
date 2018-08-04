@@ -71,8 +71,11 @@
 //		data.files = {};
 //		
 		sortedImages.forEach(function(item, i) {
-			data.append('files', item);
+//			data.append('files', item);
 //			data.files[i] = item;
+//			data.append('files' + i, storedFiles[item_number]);
+//			data.append('files[]', item, item.name);
+			data.append('file' + i, item, item.name);
 		});
 		
 //		data.append('testField', 'test');
