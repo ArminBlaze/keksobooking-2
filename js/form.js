@@ -5,9 +5,10 @@
 	// Модуль формы
 	
 	//синхронизация полей ввода
-	var noticeForm = document.querySelector('.notice__form');
+	var form = document.querySelector('.notice__form');
+//	var form = document.querySelector('.notice__form');
 
-	var fieldsets = [].slice.call(noticeForm.querySelectorAll('fieldset'));
+	var fieldsets = [].slice.call(form.querySelectorAll('fieldset'));
 
 	fieldsets.forEach(function(item){
 	//  console.log(item);
@@ -25,7 +26,6 @@
 	
 
 	// валидация формы
-	var form = document.querySelector('.notice__form');
 	var submitButton = form.querySelector('.form__submit');
 
 	var inputs = form.querySelectorAll('input:not([type="submit"])');
@@ -35,7 +35,52 @@
 	
 	function onFormSubmit (e) {
 		e.preventDefault();
-		window.backend.save(new FormData(this), onLoad, window.data.onError)
+		
+		var data = new FormData(this);
+//		var data = {};
+//		var data = new FormData();
+		
+//		for (var i = 0, ii = form.length; i < ii; ++i) {
+//			var input = form[i];
+//			if (input.name) {
+////				data[input.name] = input.value;
+//				data.append(input.name, input.value)
+//			}
+//		}
+		
+		console.log(data);
+		
+		
+		var sortedImages = window.imagesSort.sortFilesInInput();
+//		console.log(sortedImages.length);
+		
+//		var formData    = new FormData(this);
+//		var formKeys    = formData.keys();
+//		var formEntries = formData.entries();
+//
+//		do {
+//			console.log(formEntries.next().value);
+//		} while (!formKeys.next().done)
+//		console.log(data.getAll());
+		
+//		for (var i in items){
+//			var item_number = items[i];
+//			data.append('files' + i, storedFiles[item_number]);
+//		}
+		
+//		data.files = {};
+//		
+		sortedImages.forEach(function(item, i) {
+			data.append('files', item);
+//			data.files[i] = item;
+		});
+		
+//		data.append('testField', 'test');
+//		data.append('files', sortedImages[0]);
+		
+		console.log(data.getAll('files'));
+		
+		window.backend.save(data, onLoad, window.data.onError);
 	}
 	
 	function onLoad (data) {	//при успешной отправке данных на сервер
@@ -148,7 +193,7 @@
 	
 	
 	window.form = {
-		noticeForm: noticeForm,
+		noticeForm: form,
 		fieldsets: fieldsets,
 		setAddress: setAddress
 	};

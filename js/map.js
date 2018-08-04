@@ -15,7 +15,8 @@
 		mapElem: map,
 		showMap: initMap,
 		mapPins: mapPins,
-		mainPin: mainPin
+		mainPin: mainPin,
+		mapFilters: mapFilters
 	};
 	
 	
@@ -45,6 +46,7 @@
 	//функция активации карты и формы. Запускается однократно, а потом удаляет обработчик
 	function onMainPinMouseUp (e) {
 		if(!window.data.adverts) return;
+//		console.log(window.data.adverts);
 		initMap();
 	};
 
@@ -57,7 +59,7 @@
 			target = target.parentNode;
 		}
 		if (target == this) return;
-		console.log(target);
+//		console.log(target);
 
 		//логика
 		showCard(target);
