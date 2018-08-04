@@ -36,28 +36,27 @@
 	function onFormSubmit (e) {
 		e.preventDefault();
 		
-		var data = new FormData(this);
-//		var data = {};
+//		var data = new FormData(this);
+		var data = {};
 //		var data = new FormData();
 		
-//		for (var i = 0, ii = form.length; i < ii; ++i) {
-//			var input = form[i];
-//			if (input.name) {
-////				data[input.name] = input.value;
+		for (var i = 0, ii = form.length; i < ii; ++i) {
+			var input = form[i];
+			if (input.name) {
+				data[input.name] = input.value;
 //				data.append(input.name, input.value)
-//			}
-//		}
+			}
+		}
 		
 		console.log(data);
 		
 		
 		var sortedImages = window.imagesSort.sortFilesInInput();
-//		console.log(sortedImages.length);
+//		console.log(sortedImages);
 		
 //		var formData    = new FormData(this);
 //		var formKeys    = formData.keys();
 //		var formEntries = formData.entries();
-//
 //		do {
 //			console.log(formEntries.next().value);
 //		} while (!formKeys.next().done)
@@ -70,17 +69,76 @@
 		
 //		data.files = {};
 //		
-		sortedImages.forEach(function(item, i) {
-			data.append('files', item);
+//		sortedImages.forEach(function(item, i) {
+////			data.append('files', item);
+////			data.append('files[]', item, item.name);
 //			data.files[i] = item;
-		});
+//		});
+//		data.files = sortedImages[0];
+//		console.log(data);
 		
 //		data.append('testField', 'test');
 //		data.append('files', sortedImages[0]);
 		
-		console.log(data.getAll('files'));
+//		console.log(data.getAll('files'));
 		
-		window.backend.save(data, onLoad, window.data.onError);
+		
+		var boundary = String(Math.random()).slice(2);
+		var boundaryMiddle = '--' + boundary + '\r\n';
+		var boundaryLast = '--' + boundary + '--\r\n'
+
+		var body = ['\r\n'];
+		for (var key in data) {
+			// добавление поля
+			body.push('Content-Disposition: form-data; name="' + key + '"\r\n\r\n' + data[key] + '\r\n');
+		};
+		
+		for (var key in sortedImages) {
+			// добавление файлов
+			body.push('Content-Disposition: form-data; name="' +
+								key + '"; filename="' + sortedImages[key].name + '"\r\n\Content-Type: image/jpeg\r\n\r\n' + sortedImages[key] + '\r\n');
+		};
+		
+//		Content-Disposition: form-data; name="myfile"; filename="pic.jpg"
+//		Content-Type: image/jpeg
+//		(пустая строка)
+//		содержимое файла
+		
+		console.log(body);
+
+		body = body.join(boundaryMiddle) + boundaryLast;
+		
+		console.log(body);
+
+		// Тело запроса готово, отправляем
+
+		var xhr = new XMLHttpRequest();
+		xhr.open('POST', 'https://js.dump.academy/keksobooking/', true);
+
+		xhr.setRequestHeader('Content-Type', 'multipart/form-data; boundary=' + boundary);
+
+		xhr.addEventListener('load', function() {
+			if(xhr.status === 200) {
+				try	{
+//					console.log(xhr.response);
+					var data = JSON.parse(xhr.response);
+//					options.onLoad(data);
+					console.log(data);
+				} 
+				catch(err) {
+//					console.log(err.message);
+					options.onError('Ошибка обработки JSON: ' + err.message);
+				}
+			} 
+			else {
+				console.log(xhr.response);
+				options.onError('Ошибка сервера: ' + xhr.status + ' ' + xhr.statusText);
+			}
+		});
+
+		xhr.send(body);
+		
+//		window.backend.save(data, onLoad, window.data.onError);
 	}
 	
 	function onLoad (data) {	//при успешной отправке данных на сервер
