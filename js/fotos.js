@@ -37,6 +37,7 @@
 		if(files.length === 0) return;
 		
 		var filteredFiles = testFilesType(files);
+		window.fotos.filteredFiles = filteredFiles;
 		
 		if(filteredFiles.length > 0) {
 			deletePreviews();
@@ -70,7 +71,7 @@
 		img.setAttribute('data-number', i);
 		drawOrderedPreview(img, i, length)
 		
-		generateEvent(fotosInput);
+		window.util.generateEvent(fotosBlock, "image-added");
 	};
 	
 	function drawOrderedPreview (img, i, length) {
@@ -89,13 +90,6 @@
 		}
 		console.log(fragment);
 		fotosBlock.appendChild(fragment);
-	}
-	
-	function generateEvent (elem) {
-//		var event = new CustomEvent('card-closed', {bubbles: true});	//Edge > 11 IE
-		var event = document.createEvent("Event"); //IE 9+
-		event.initEvent("image-added", true, true); //IE 9+
-		elem.dispatchEvent(event);
 	}
 	
 	
@@ -140,6 +134,21 @@
 		console.log('форма сброшена');
 		deleteAvatar();
 		deletePreviews();
+	};
+	
+	window.fotos = {
+		avatarBlock: avatarBlock,
+		avatarDropzone: avatarDropzone,
+		avatarInput: avatarInput,
+		avatarPreview: avatarPreview,
+		fotosBlock: fotosBlock,
+		fotosDropzone: fotosDropzone,
+		fotosInput: fotosInput,
+		testFilesType: testFilesType,
+		deletePreviews: deletePreviews,
+		generateEmptyDivs: generateEmptyDivs,
+		generatePreviews: generatePreviews,
+		onFotosLoad: onFotosLoad
 	};
 	
 })();

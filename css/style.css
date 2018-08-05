@@ -641,6 +641,11 @@ textarea:focus {
   color: #ff5635;
 }
 
+.drop-zone.highlight {
+	border-color: #ff6d51;
+	border-style: solid;
+}
+
 .form__photo-container {
   width: 140px;
 }

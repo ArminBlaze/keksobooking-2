@@ -50,8 +50,8 @@
 		
 		console.log(data);
 		
-		
-		var sortedImages = window.imagesSort.sortFilesInInput();
+		//картинки добавленные в форму
+		var sortedImages = window.fotosSort.sortFilesInInput();
 //		console.log(sortedImages.length);
 		
 //		var formData    = new FormData(this);

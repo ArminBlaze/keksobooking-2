@@ -1,21 +1,21 @@
 'use strict';
 
 ;(function () { 
-	var fotosBlock = window.form.noticeForm.querySelector('.form__photo-container');
-	var fotosDropzone = fotosBlock.querySelector('.drop-zone');
-	var fotosInput = fotosBlock.querySelector('#images');
+	var fotosBlock = window.fotos.fotosBlock;
+	var fotosDropzone = window.fotos.fotosDropzone;
+	var fotosInput = window.fotos.fotosInput;
 	
 //	fotosInput.addEventListener('change', onFotosInputChange); 
-	fotosInput.addEventListener('image-added', onImagesAdded);
+	fotosBlock.addEventListener('image-added', onImagesAdded);
+	
+//	function onImagesAdded (e) {
+//		console.log("onImagesAdded");
+//	}
 	
 	function onImagesAdded (e) {
-		console.log("onImagesAdded");
-	}
-	
-	function onImagesAdded (e) {
-		console.log('изменился инпут');
+		console.log('добавили картинки');
 		
-		var files = fotosInput.files;
+		var files = window.fotos.filteredFiles;
 		if(files.length === 0) return;
 		
 //		var images = fotosBlock.querySelectorAll('div[data-number]');
@@ -83,7 +83,7 @@
 		console.log(divs);
 		console.log(fotosInput.files);
 		
-		var files = fotosInput.files;
+		var files = window.fotos.filteredFiles;
 		var sortedFiles = [];
 //		files = [].slice.call(files);
 		
