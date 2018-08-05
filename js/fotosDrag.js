@@ -42,17 +42,9 @@
 		let dt = e.dataTransfer;
 		let files = dt.files;
 
-//		handleFiles(files);
-		
-		var filteredFiles = window.fotos.testFilesType(files);
-		window.fotos.filteredFiles = filteredFiles;
-		
-		console.log(filteredFiles);
-		
-		if(filteredFiles.length > 0) {
-			window.fotos.deletePreviews();
-			window.fotos.generateEmptyDivs(filteredFiles.length);
-			window.fotos.generatePreviews(filteredFiles, window.fotos.onFotosLoad);
-		}
+		window.fotos.handleFiles(files);
 	};
+	
+	
+	
 })();

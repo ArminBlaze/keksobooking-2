@@ -36,6 +36,11 @@
 		var files = fotosInput.files;
 		if(files.length === 0) return;
 		
+		handleFiles(files);
+	};
+	
+	//обрабатываем файлы
+	function handleFiles (files) {
 		var filteredFiles = testFilesType(files);
 		window.fotos.filteredFiles = filteredFiles;
 		
@@ -148,7 +153,8 @@
 		deletePreviews: deletePreviews,
 		generateEmptyDivs: generateEmptyDivs,
 		generatePreviews: generatePreviews,
-		onFotosLoad: onFotosLoad
+		onFotosLoad: onFotosLoad,
+		handleFiles: handleFiles
 	};
 	
 })();
