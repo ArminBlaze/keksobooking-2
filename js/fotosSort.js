@@ -4,30 +4,30 @@
 	var fotosBlock = window.fotos.fotosBlock;
 	var fotosDropzone = window.fotos.fotosDropzone;
 	var fotosInput = window.fotos.fotosInput;
+	var fotosPreview = window.fotos.fotosInput;
 	
 //	fotosInput.addEventListener('change', onFotosInputChange); 
-	fotosBlock.addEventListener('image-added', onImagesAdded);
+//	fotosBlock.addEventListener('image-added', onImagesAdded);
 	
 //	function onImagesAdded (e) {
 //		console.log("onImagesAdded");
 //	}
 	
-	function onImagesAdded (e) {
-		console.log('добавили картинки');
-		
-		var files = window.fotos.filteredFiles;
-		if(files.length === 0) return;
-		
-//		var images = fotosBlock.querySelectorAll('div[data-number]');
-		var images = fotosBlock.querySelectorAll('img');
-		images = [].slice.call(images);
-		images.forEach(function(item){
-			if(!item.classList.contains('form__foto')) {
-				item.classList.add('form__foto');
-				item.setAttribute('draggable', 'true');
-			}
-		});
-	};
+//	function onImagesAdded (e) {
+//		console.log('добавили картинки');
+//		
+//		var files = window.fotos.filteredFiles;
+//		if(files.length === 0) return;
+//		
+////		var images = fotosBlock.querySelectorAll('img');
+////		images = [].slice.call(images);
+////		images.forEach(function(item){
+////			if(!item.classList.contains('form__foto')) {
+////				item.classList.add('form__foto');
+////				item.setAttribute('draggable', 'true');
+////			}
+////		});
+//	};
 	
 	
 	var draggedItem = null;
@@ -38,12 +38,21 @@
 			return;
 		}
 		
-		
 		draggedItem = e.target;
 		//перетаскиваем как текст, значение - alt картинки
 		e.dataTransfer.setData('text/plain', draggedItem.getAttribute('data-number'));
 		e.dataTransfer.setData('parent', 'fotosBlock');
 		fotosBlock.style.outline = "2px dashed #ff6d51";
+	});
+	
+	document.addEventListener('dragenter', function(e) {
+		if(e.target.tagName.toLowerCase() !== "img") return;
+		e.target.style.outline = "2px solid #ff6d51";
+	});
+	
+	document.addEventListener('dragleave', function(e) {
+		if(e.target.tagName.toLowerCase() !== "img") return;
+		e.target.style.outline = "";
 	});
 	
 	document.addEventListener('dragover', function (e) {
@@ -52,7 +61,7 @@
 	});
 	
 	fotosBlock.addEventListener('drop', function(e) {
-		e.target.style.backgroundColor = '';
+		e.target.style.outline = "";
 		e.preventDefault();
 		
 		if(!checkCell(e.target)) return;
@@ -70,8 +79,6 @@
 			else { //если после - ставим наш после таргета
 				e.target.parentNode.parentNode.insertBefore(draggedItem.parentNode, e.target.parentNode.nextSibling);
 			}
-			
-			
 		}
 		
 		draggedItem = null;
@@ -115,93 +122,13 @@
 	
 	function checkCell (target) {
 		if(!draggedItem) return false;
-		if(!target.classList.contains('form__foto')) return false;
+		if(!target.classList.contains('previews__img')) return false;
 //		if(target.childNodes.length > 0) return false;
 		
 		return true;
 	}
 	
-	
-//	var shopElement = document.querySelector('.setup-artifacts-shop'); //магазин
-//	var draggedItem = null;
-//	
-//	//элемент у которого есть свойство dropzone (инвентарь)
-//	var artifactsElement = document.querySelector('.setup-artifacts');  
-//	
-//	//делегирование. При клике на любой Img элемент запускаем обработчик.
-//	shopElement.addEventListener('dragstart', function(e) {
-//		if(e.target.tagName.toLowerCase() !== 'img') {
-//			return;
-//		}
-//		
-//		draggedItem = e.target;
-//		//перетаскиваем как текст, значение - alt картинки
-//		e.dataTransfer.setData('text/plain', e.target.alt);
-//		e.dataTransfer.setData('parent', 'shop');
-//		artifactsElement.style.outline = "2px dashed red";
-//	});
-//	
-//	artifactsElement.addEventListener('dragstart', function(e) {
-//		if(e.target.tagName.toLowerCase() !== 'img') {
-//			return;
-//		}
-//		
-//		draggedItem = e.target;
-//		//перетаскиваем как текст, значение - alt картинки
-//		e.dataTransfer.setData('text/plain', e.target.alt);
-//		e.dataTransfer.setData('parent', 'inventory');
-//		artifactsElement.style.outline = "2px dashed green";
-//	});
-//	
-//	
-//	document.addEventListener('dragover', function (e) {
-//		e.preventDefault();
-//		return false;
-//	});
-//	
-//	artifactsElement.addEventListener('drop', function(e) {
-//		e.target.style.backgroundColor = '';
-//		e.preventDefault();
-//		
-//		if(!checkCell(e.target)) return;
-//		
-//		console.log(e.dataTransfer.getData('parent'));
-//		
-//		if(e.dataTransfer.getData('parent') === 'shop') {
-//			e.target.appendChild(draggedItem.cloneNode(true));
-//		}
-//		else if(e.dataTransfer.getData('parent') === 'inventory') {
-//			e.target.appendChild(draggedItem);
-//		}
-//		
-//		draggedItem = null;
-//	});
-//	
-//	artifactsElement.addEventListener('dragenter', function(e) {
-//		if(!checkCell(e.target)) return;
-//		
-//		e.target.style.backgroundColor = 'yellow';
-//		e.preventDefault();
-//	});
-//	
-//	artifactsElement.addEventListener('dragleave', function(e) {
-//		e.target.style.backgroundColor = '';
-//		e.preventDefault();
-//	});
-//	
-//	document.addEventListener('dragend', function(e) {
-//		artifactsElement.style.outline = "";
-//	});
-//	
-//	function checkCell (target) {
-//		if(!draggedItem) return false;
-//		if(!target.classList.contains('setup-artifacts-cell')) return false;
-//		if(target.childNodes.length > 0) return false;
-//		
-//		return true;
-//	}
-	
-	window.imagesSort = {
+	window.fotosSort = {
 		sortFilesInInput: sortFilesInInput
 	};
 })();

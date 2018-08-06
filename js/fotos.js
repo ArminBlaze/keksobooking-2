@@ -9,6 +9,11 @@
 	var fotosBlock = window.form.noticeForm.querySelector('.form__photo-container');
 	var fotosDropzone = fotosBlock.querySelector('.drop-zone');
 	var fotosInput = fotosBlock.querySelector('#images');
+	var fotosPreview = fotosBlock.querySelector('.previews');
+	
+	let filesDone = 0;
+	let filesToDo = 0;
+	let progressBar = document.getElementById('progress-bar');
 	
 	var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 	var DEFAULT_AVATAR = 'img/muffin.png';
@@ -49,8 +54,9 @@
 		window.fotos.filteredFiles = filteredFiles;
 		
 		if(filteredFiles.length > 0) {
+			initializeProgress(filteredFiles.length);
 			deletePreviews();
-			generateEmptyDivs(filteredFiles.length);
+			generateImagesWrap(filteredFiles.length);
 			generatePreviews(filteredFiles, onFotosLoad);
 		}
 	};
@@ -74,31 +80,32 @@
 	
 	function onFotosLoad (reader, i, length) {
 		var img = document.createElement('img');
-		img.style.width = "100px";
-		img.style.maxHeight = "100px";
+		
 		img.src = reader.result;
 		img.setAttribute('data-number', i);
-		drawOrderedPreview(img, i, length)
+		img.classList.add('previews__img');
+		img.setAttribute('draggable', 'true');
+		drawOrderedPreview(img, i, length);
 		
 		window.util.generateEvent(fotosBlock, "image-added");
 	};
 	
 	function drawOrderedPreview (img, i, length) {
 //		fotosBlock.appendChild(img);
-		fotosBlock.querySelector('[data-number="' + i + '"]').appendChild(img);
-		
+		fotosPreview.querySelector('[data-number="' + i + '"]').appendChild(img);
+		progressDone();
 	};
 	
-	function generateEmptyDivs (length) {
+	function generateImagesWrap (length) {
 		console.log("fragment");
 		var fragment = document.createDocumentFragment();
 		for(var i = 0; i < length; i++) {
-			var div = document.createElement('div');
-			div.setAttribute('data-number', i);
-			fragment.appendChild(div);
+			var span = document.createElement('span');
+			span.setAttribute('data-number', i);
+			fragment.appendChild(span);
 		}
 		console.log(fragment);
-		fotosBlock.appendChild(fragment);
+		fotosPreview.appendChild(fragment);
 	}
 	
 	
@@ -110,7 +117,6 @@
 		else {
 			files = [].concat(files);
 		}
-		
 		
 		var newFiles = files.filter(function(item) {
 			var fileName = item.name.toLowerCase(); //имя файла
@@ -124,7 +130,7 @@
 			});
 //			console.log(matches);
 			return matches;
-		});
+		})
 		
 		
 //		console.log(newFiles);
@@ -133,12 +139,12 @@
 	
 	function deleteAvatar () {
 		avatarPreview.src = DEFAULT_AVATAR;
-	}
+	};
 	
 	function deletePreviews	() {
-		var divs = fotosBlock.querySelectorAll('div[data-number]');
-		divs = [].slice.call(divs);
-		divs.forEach(function(item) {
+		var spans = fotosBlock.querySelectorAll('span[data-number]');
+		spans = [].slice.call(spans);
+		spans.forEach(function(item) {
 			item.parentNode.removeChild(item);
 		});
 	};
@@ -148,6 +154,18 @@
 		console.log('форма сброшена');
 		deleteAvatar();
 		deletePreviews();
+		initializeProgress(); //сбрасываем полосу загрузки в ноль
+	};
+	
+	function initializeProgress(numfiles) {
+		progressBar.value = 0
+		filesDone = 0
+		filesToDo = numfiles
+	};
+
+	function progressDone() {
+		filesDone++
+		progressBar.value = filesDone / filesToDo * 100
 	};
 	
 	window.fotos = {
@@ -158,9 +176,10 @@
 		fotosBlock: fotosBlock,
 		fotosDropzone: fotosDropzone,
 		fotosInput: fotosInput,
+		fotosPreview: fotosPreview,
 		testFilesType: testFilesType,
 		deletePreviews: deletePreviews,
-		generateEmptyDivs: generateEmptyDivs,
+		generateImagesWrap: generateImagesWrap,
 		generatePreviews: generatePreviews,
 		onFotosLoad: onFotosLoad,
 		handleFotos: handleFotos,
