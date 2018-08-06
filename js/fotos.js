@@ -21,26 +21,30 @@
 	
 	function onAvatarInputChange (e) {
 //		console.log("onAvatarInputChange");
-		var files = avatarInput.files;
+		var file = avatarInput.files[0];
 		if(files.length === 0) return;
 		
-		var filteredFiles = testFilesType(files);
-		
-		if(filteredFiles.length > 0) {
-			generatePreviews(filteredFiles, onAvatarLoad);
-		}
+		handleAvatar(file);
 	};
+	
+	function handleAvatar (file) {
+		var filteredFile = testFilesType(file);
+		
+		if(filteredFile.length > 0) {
+			generatePreviews(filteredFile, onAvatarLoad);
+		}
+	}
 	
 	function onFotosInputChange (e) {
 //		console.log("onFotosInputChange");
 		var files = fotosInput.files;
 		if(files.length === 0) return;
 		
-		handleFiles(files);
+		handleFotos(files);
 	};
 	
 	//обрабатываем файлы
-	function handleFiles (files) {
+	function handleFotos (files) {
 		var filteredFiles = testFilesType(files);
 		window.fotos.filteredFiles = filteredFiles;
 		
@@ -99,9 +103,14 @@
 	
 	
 	function testFilesType (files) {
-//		console.log(files);
+		//если это коллекция, иначе это один файл
+		if(toString.call(files) == "[object FileList]") {
+			files = [].slice.call(files);
+		}
+		else {
+			files = [].concat(files);
+		}
 		
-		files = [].slice.call(files);
 		
 		var newFiles = files.filter(function(item) {
 			var fileName = item.name.toLowerCase(); //имя файла
@@ -154,7 +163,8 @@
 		generateEmptyDivs: generateEmptyDivs,
 		generatePreviews: generatePreviews,
 		onFotosLoad: onFotosLoad,
-		handleFiles: handleFiles
+		handleFotos: handleFotos,
+		handleAvatar: handleAvatar
 	};
 	
 })();
