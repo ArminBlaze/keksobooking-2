@@ -646,6 +646,15 @@ textarea:focus {
 	border-style: solid;
 }
 
+.drop-zone.glowing{
+	animation: glow 1s infinite alternate;
+}
+
+@keyframes glow {
+  from { background: transparent; }
+  to   { background: #ff6547; }
+}
+
 .form__photo-container {
 /*  width: 140px;*/
 }

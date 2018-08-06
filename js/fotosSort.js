@@ -46,6 +46,7 @@
 	});
 	
 	document.addEventListener('dragenter', function(e) {
+		if(!draggedItem) return;
 		if(e.target.tagName.toLowerCase() !== "img") return;
 		e.target.style.outline = "2px solid #ff6d51";
 	});

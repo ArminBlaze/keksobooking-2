@@ -87,7 +87,7 @@
 		img.setAttribute('draggable', 'true');
 		drawOrderedPreview(img, i, length);
 		
-		window.util.generateEvent(fotosBlock, "image-added");
+//		window.util.generateEvent(fotosBlock, "image-added");
 	};
 	
 	function drawOrderedPreview (img, i, length) {
@@ -97,14 +97,14 @@
 	};
 	
 	function generateImagesWrap (length) {
-		console.log("fragment");
+//		console.log("fragment");
 		var fragment = document.createDocumentFragment();
 		for(var i = 0; i < length; i++) {
 			var span = document.createElement('span');
 			span.setAttribute('data-number', i);
 			fragment.appendChild(span);
 		}
-		console.log(fragment);
+//		console.log(fragment);
 		fotosPreview.appendChild(fragment);
 	}
 	
