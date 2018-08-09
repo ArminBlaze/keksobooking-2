@@ -617,7 +617,6 @@ textarea:focus {
 
 .notice__form .upload {
   display: flex;
-
   min-height: 70px;
 }
 
@@ -627,6 +626,7 @@ textarea:focus {
 }
 
 .notice__form .drop-zone {
+	max-width: 140px;
   color: #999;
   border: dashed 1px #c7c7c7;
   border-radius: 5px;
@@ -641,9 +641,65 @@ textarea:focus {
   color: #ff5635;
 }
 
-.form__photo-container {
-  width: 140px;
+.drop-zone.highlight {
+	border-color: #ff6d51;
+	border-style: solid;
 }
+
+.drop-zone.glowing{
+	animation: glow 1s infinite alternate;
+}
+
+@keyframes glow {
+  from { background: transparent; }
+  to   { background: #ff6547; }
+}
+
+.form__photo-container {
+/*  width: 140px;*/
+}
+
+.previews__img {
+	width: 100px;
+	max-height: 100px;
+}
+
+/*
+progress {
+  border: none;
+  background: crimson;
+}
+*/
+
+/*
+progress {
+  color: lightblue;
+}
+*/
+
+/*
+progress::-webkit-progress-value {
+  background: orange;
+}
+*/
+
+/*
+progress::-moz-progress-bar {
+  background: orange;
+}
+*/
+
+/*
+progress::-webkit-progress-value {
+  background: orange;
+}
+*/
+
+/*
+progress::-webkit-progress-bar {
+  background: blue;
+}
+*/
 
 .form__element--submit {
   width: 100%;

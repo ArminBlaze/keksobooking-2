@@ -193,6 +193,8 @@
             <input type="file" id="images" multiple>
             <label for="images" class="drop-zone">Загрузите или&nbsp;перетащите сюда фото</label>
           </div>
+          <progress id="progress-bar" max=100 value=0></progress>
+          <div class="previews"></div>
         </div>
       </fieldset>
 
@@ -245,6 +247,8 @@
   <button style="left: 200px; top: 400px;" class="map__pin"><img src="img/avatars/user07.png" width="40" height="40" draggable="false"></button>
 </template>
 
+
+<script src="js/util.js"></script>
 <script src="js/backend.js"></script>
 <script src="js/data.js"></script>
 <script src="js/filters.js"></script>
@@ -253,7 +257,8 @@
 <script src="js/show-card.js"></script>
 <script src="js/pin.js"></script>
 <script src="js/form.js"></script>
-<script src="js/images.js"></script>
-<script src="js/imagesSort.js"></script>
+<script src="js/fotos.js"></script>
+<script src="js/fotosSort.js"></script>
+<script src="js/fotosDrag.js"></script>
 </body>
 </html>
