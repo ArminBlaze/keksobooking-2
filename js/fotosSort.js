@@ -87,7 +87,7 @@
 	});
 	
 	function sortFilesInInput () {
-		var divs = fotosBlock.querySelectorAll('div[data-number]');
+		var divs = fotosBlock.querySelectorAll('span[data-number]');
 		console.log(divs);
 		console.log(fotosInput.files);
 		
