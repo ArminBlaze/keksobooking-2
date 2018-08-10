@@ -102,7 +102,7 @@
 		for(var i = 0; i < length; i++) {
 			var span = document.createElement('span');
 			span.setAttribute('data-number', i);
-      span.classList.add('previews__wrap')
+      span.classList.add('previews__wrap');
 			fragment.appendChild(span);
 		}
 //		console.log(fragment);

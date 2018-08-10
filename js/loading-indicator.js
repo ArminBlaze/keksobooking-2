@@ -31,14 +31,12 @@
     
   
   function initializeProgress(e) {
-    console.log("I hear document loadstart");
-    
+//    console.log("I hear document loadstart");
     showIndicator();
   };
 
   function progressDone(e) {
-    console.log("I hear document loadend");
-    
+//    console.log("I hear document loadend");
     hideIndicator();
   };
   

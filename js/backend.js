@@ -42,12 +42,12 @@
 		});
     
      xhr.addEventListener('loadstart', function() {
-      console.log("loadstart");
+//      console.log("loadstart");
       window.util.generateEvent(document, "backend-loadstart");
     });
     
     xhr.addEventListener('loadend', function() {
-      console.log("loadend");
+//      console.log("loadend");
       window.util.generateEvent(document, "backend-loadend");
     });
 		

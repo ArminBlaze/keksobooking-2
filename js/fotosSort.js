@@ -88,8 +88,8 @@
 	
 	function sortFilesInInput () {
 		var divs = fotosBlock.querySelectorAll('.previews__wrap');
-		console.log(divs);
-		console.log(fotosInput.files);
+//		console.log(divs);
+//		console.log(fotosInput.files);
 		
 		var files = window.fotos.filteredFiles;
 		var sortedFiles = [];
@@ -97,11 +97,11 @@
 		
 		divs.forEach(function(item, i){
 			var pos = item.getAttribute('data-number');
-			console.log(pos);
+//			console.log(pos);
 			sortedFiles[i] = files[pos];
 		});
 		
-		console.log(sortedFiles);
+//		console.log(sortedFiles);
 		
 		return(sortedFiles);
 		
