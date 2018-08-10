@@ -1,6 +1,7 @@
 'use strict';
 
 ;(function () { 
+  
 		///////////////////////////////
 	// Модуль формы
 	
@@ -83,8 +84,10 @@
 		
 		console.log(data.getAll('files'));
 		
+//    initializeProgress(); //для индикатора загрузки
 		window.backend.save(data, onLoad, window.data.onError);
-	}
+	};
+  
 	
 	function onLoad (data) {	//при успешной отправке данных на сервер
 		console.log(data);

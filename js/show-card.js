@@ -29,19 +29,20 @@
 
 	function closeCard () {
 		if(window.map.advertCard) {
-			generateCloseEvent(window.map.mapElem);
+//			generateCloseEvent(window.map.mapElem);
+      window.util.generateEvent(window.map.mapElem, "card-closed");
 			map.removeChild(window.map.advertCard);
 			document.removeEventListener('keydown', onPopupEscPress);
 			window.map.advertCard = null;
 		}
 	}
 	
-	function generateCloseEvent (elem) {
-//		var event = new CustomEvent('card-closed', {bubbles: true});	//Edge > 11 IE
-		var event = document.createEvent("Event"); //IE 9+
-		event.initEvent("card-closed", true, true); //IE 9+
-		elem.dispatchEvent(event);
-	}
+//	function generateCloseEvent (elem) {
+////		var event = new CustomEvent('card-closed', {bubbles: true});	//Edge > 11 IE
+//		var event = document.createEvent("Event"); //IE 9+
+//		event.initEvent("card-closed", true, true); //IE 9+
+//		elem.dispatchEvent(event);
+//	}
 	
 	function onPopupEscPress (e) {
 	//  if( e.target.classList.contains('setup-user-name') ) return; // игнорируем, если выделение на инпуте
