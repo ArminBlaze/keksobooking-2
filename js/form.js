@@ -17,6 +17,7 @@
 	});
 	
 	//делаем input#address типа "readonly", запрещаем любое выделение, т.к. нельзя сделать input одновременно required & readonly
+  var address = document.getElementById("address");
 	address.addEventListener('paste', function(e){e.preventDefault()});
 	address.addEventListener('keypress', function(e){e.preventDefault()});
 	address.addEventListener('mousedown', function(e){e.preventDefault()});
@@ -138,9 +139,16 @@
 	
 	
 	//06 - Синхронизация полей - общая функция
+  var timein = document.getElementById("timein");
 	timein.addEventListener('input', onTimeinChange);
+  
+  var timeout = document.getElementById("timeout");
 	timeout.addEventListener('input', onTimeinChange);
+  
+  var type = document.getElementById("type");
 	type.addEventListener('input', onTypeChange);
+  
+  var room_number = document.getElementById("room_number");
 	room_number.addEventListener('input', onRoomChange);
 	
 	function onTypeChange (e) {

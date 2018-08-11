@@ -4,8 +4,15 @@
 ;(function () { 
 		///////////////////////////
 	// Card Module
+	var template = document.querySelector('template');
 	
-	var mapCardTemplate = document.querySelector('template').content.querySelector('.map__card');
+  
+  if('content' in template) {
+    var mapCardTemplate = template.content.querySelector('.map__card');
+  }
+  else {
+    var mapCardTemplate = template.children[0];
+  }
 	
 	var map = window.map.mapElem;
 	var ESC_KEYCODE = 27;

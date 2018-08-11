@@ -18,7 +18,8 @@
 	
 	function deleteButtons () {
 		var buttons = window.map.mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
-		
+    buttons = [].slice.call(buttons);
+    
 		buttons.forEach(function(item){
 			item.parentNode.removeChild(item);
 		});
