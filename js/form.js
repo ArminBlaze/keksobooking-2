@@ -1,6 +1,7 @@
 'use strict';
 
 ;(function () { 
+  
 		///////////////////////////////
 	// Модуль формы
 	
@@ -48,7 +49,7 @@
 //			}
 //		}
 		
-		console.log(data);
+//		console.log(data);
 		
 		//картинки добавленные в форму
 		var sortedImages = window.fotosSort.sortFilesInInput();
@@ -81,10 +82,12 @@
 //		data.append('testField', 'test');
 //		data.append('files', sortedImages[0]);
 		
-		console.log(data.getAll('files'));
+//		console.log(data.getAll('files'));
 		
+//    initializeProgress(); //для индикатора загрузки
 		window.backend.save(data, onLoad, window.data.onError);
-	}
+	};
+  
 	
 	function onLoad (data) {	//при успешной отправке данных на сервер
 		console.log(data);

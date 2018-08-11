@@ -102,6 +102,7 @@
 		for(var i = 0; i < length; i++) {
 			var span = document.createElement('span');
 			span.setAttribute('data-number', i);
+      span.classList.add('previews__wrap');
 			fragment.appendChild(span);
 		}
 //		console.log(fragment);
@@ -142,9 +143,9 @@
 	};
 	
 	function deletePreviews	() {
-		var spans = fotosBlock.querySelectorAll('span[data-number]');
-		spans = [].slice.call(spans);
-		spans.forEach(function(item) {
+		var wrappers = fotosBlock.querySelectorAll('.previews__wrap');
+		wrappers = [].slice.call(wrappers);
+		wrappers.forEach(function(item) {
 			item.parentNode.removeChild(item);
 		});
 	};

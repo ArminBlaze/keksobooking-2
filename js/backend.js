@@ -40,6 +40,16 @@
 		xhr.addEventListener('timeout', function() {
 			options.onError('Запрос не успел выполнится за ' + xhr.timeout + 'мс');
 		});
+    
+     xhr.addEventListener('loadstart', function() {
+//      console.log("loadstart");
+      window.util.generateEvent(document, "backend-loadstart");
+    });
+    
+    xhr.addEventListener('loadend', function() {
+//      console.log("loadend");
+      window.util.generateEvent(document, "backend-loadend");
+    });
 		
 		xhr.timeout = 10000;
 		xhr.open(options.method, options.url);

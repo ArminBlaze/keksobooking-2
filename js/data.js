@@ -57,6 +57,7 @@
 	
 	//06 - XHR
 	function onLoad (data) {
+    console.log(data);
 		window.data.adverts = data;
 		window.data.filteredAdverts = window.data.adverts;
 		window.data.buttons = createButtons(data);
