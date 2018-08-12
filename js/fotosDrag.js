@@ -53,15 +53,15 @@
 	avatarDropzone.addEventListener('drop', handleAvatarDrop, false);
 
 	function handleFotosDrop(e) {
-		let dt = e.dataTransfer;
-		let files = dt.files;
+		var dt = e.dataTransfer;
+		var files = dt.files;
 
 		window.fotos.handleFotos(files);
 	};
 	
 	function handleAvatarDrop(e) {
-		let dt = e.dataTransfer;
-		let file = dt.files[0];
+		var dt = e.dataTransfer;
+		var file = dt.files[0];
 
 		window.fotos.handleAvatar(file);
 	};

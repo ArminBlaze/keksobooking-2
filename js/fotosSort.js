@@ -88,6 +88,7 @@
 	
 	function sortFilesInInput () {
 		var divs = fotosBlock.querySelectorAll('.previews__wrap');
+    divs = [].slice.call(divs);
 //		console.log(divs);
 //		console.log(fotosInput.files);
 		

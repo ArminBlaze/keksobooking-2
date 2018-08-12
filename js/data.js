@@ -45,8 +45,6 @@
 		var left = adverts[i].location.x;
 		var top = adverts[i].location.y;
 		var avatar = adverts[i].author.avatar;
-    
-    console.log(left, top);
 
 //		elem.style = 'left:' + left + 'px; top:' + top + 'px;';
 		elem.style.left = left + 'px';
@@ -83,7 +81,7 @@
 		if(!errorDiv) {
 			errorDiv = document.createElement('div');
 			errorDiv.classList.add('errorDiv');
-			errorDiv.style = '\
+			errorDiv.style.cssText = '\
 				z-index: 100;\
 				margin: 0 auto;\
 				text-align: center;\
