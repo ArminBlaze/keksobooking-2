@@ -531,7 +531,7 @@ textarea:focus {
 .notice__preview {
   background: #dadada;
   display: inline-block;
-  width: 70px;
+/*  width: 70px;*/
   text-align: center;
   line-height: 70px;
   padding: 0 15px;
@@ -683,6 +683,10 @@ textarea:focus {
   right: 0;
   bottom: 0;
   margin: auto;
+}
+
+progress {
+  max-width: 140px;
 }
 
 /*
