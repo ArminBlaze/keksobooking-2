@@ -51,8 +51,8 @@
       window.util.generateEvent(document, "backend-loadend");
     });
 		
-		xhr.timeout = 10000;
 		xhr.open(options.method, options.url);
+		xhr.timeout = 10000;
 		xhr.send(options.data);
 	};
 	

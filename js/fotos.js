@@ -11,9 +11,9 @@
 	var fotosInput = fotosBlock.querySelector('#images');
 	var fotosPreview = fotosBlock.querySelector('.previews');
 	
-	let filesDone = 0;
-	let filesToDo = 0;
-	let progressBar = document.getElementById('progress-bar');
+	var filesDone = 0;
+	var filesToDo = 0;
+	var progressBar = document.getElementById('progress-bar');
 	
 	var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 	var DEFAULT_AVATAR = 'img/muffin.png';
@@ -27,7 +27,7 @@
 	function onAvatarInputChange (e) {
 //		console.log("onAvatarInputChange");
 		var file = avatarInput.files[0];
-		if(files.length === 0) return;
+		if(file.length === 0) return;
 		
 		handleAvatar(file);
 	};
@@ -112,7 +112,7 @@
 	
 	function testFilesType (files) {
 		//если это коллекция, иначе это один файл
-		if(toString.call(files) == "[object FileList]") {
+		if({}.toString.call(files) === "[object FileList]") {
 			files = [].slice.call(files);
 		}
 		else {

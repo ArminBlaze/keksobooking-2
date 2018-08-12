@@ -12,12 +12,16 @@
 
 	var map = document.querySelector('.map');
 
-	var template = document.querySelector('template').content;
-
-	var buttonTemplate = template.querySelector('.map__pin');
-
-	
-	var mapCardTemplate = template.querySelector('.map__card');
+	var template = document.querySelector('template');
+  
+  if('content' in template) { //полифилл под IE11
+    var mapCardTemplate = template.content.querySelector('.map__card');
+    var buttonTemplate = template.content.querySelector('.map__pin');
+  }
+  else {
+    var mapCardTemplate = template.children[0];
+    var buttonTemplate = template.children[1];
+  }
 	
 	
 	function createButtons (adverts) {
@@ -42,7 +46,9 @@
 		var top = adverts[i].location.y;
 		var avatar = adverts[i].author.avatar;
 
-		elem.style = 'left:' + left + 'px; top:' + top + 'px;'
+//		elem.style = 'left:' + left + 'px; top:' + top + 'px;';
+		elem.style.left = left + 'px';
+    elem.style.top = top + 'px';
 		elem.querySelector('img').src = avatar;
 		return elem;
 	}
@@ -75,7 +81,7 @@
 		if(!errorDiv) {
 			errorDiv = document.createElement('div');
 			errorDiv.classList.add('errorDiv');
-			errorDiv.style = '\
+			errorDiv.style.cssText = '\
 				z-index: 100;\
 				margin: 0 auto;\
 				text-align: center;\

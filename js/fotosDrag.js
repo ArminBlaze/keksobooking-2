@@ -12,7 +12,12 @@
 	
 	
 	//отменяем поведение по умолчанию и останавливаем всплытие выше необходимого
-	['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+//	['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+//		fotosDropzone.addEventListener(eventName, preventDefaults, false);
+//		avatarDropzone.addEventListener(eventName, preventDefaults, false);
+//	});
+  
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(function(eventName) {
 		fotosDropzone.addEventListener(eventName, preventDefaults, false);
 		avatarDropzone.addEventListener(eventName, preventDefaults, false);
 	});
@@ -24,12 +29,12 @@
 	
 	
 	// подсветка границы по dragenter и dragover
-	['dragenter', 'dragover'].forEach(eventName => {
+	['dragenter', 'dragover'].forEach(function(eventName) {
   	fotosDropzone.addEventListener(eventName, highlight, false);
   	avatarDropzone.addEventListener(eventName, highlight, false);
 	});
 
-	['dragleave', 'drop'].forEach(eventName => {
+	['dragleave', 'drop'].forEach(function(eventName) {
 		fotosDropzone.addEventListener(eventName, unhighlight, false);
 		avatarDropzone.addEventListener(eventName, unhighlight, false);
 	});
@@ -48,15 +53,15 @@
 	avatarDropzone.addEventListener('drop', handleAvatarDrop, false);
 
 	function handleFotosDrop(e) {
-		let dt = e.dataTransfer;
-		let files = dt.files;
+		var dt = e.dataTransfer;
+		var files = dt.files;
 
 		window.fotos.handleFotos(files);
 	};
 	
 	function handleAvatarDrop(e) {
-		let dt = e.dataTransfer;
-		let file = dt.files[0];
+		var dt = e.dataTransfer;
+		var file = dt.files[0];
 
 		window.fotos.handleAvatar(file);
 	};
@@ -76,7 +81,7 @@
 	});
 	
 	
-	['dragend', 'drop'].forEach(eventName => {
+	['dragend', 'drop'].forEach(function(eventName) {
 		document.addEventListener(eventName, unglow, false);
 	});
 	

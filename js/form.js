@@ -17,6 +17,7 @@
 	});
 	
 	//делаем input#address типа "readonly", запрещаем любое выделение, т.к. нельзя сделать input одновременно required & readonly
+  var address = document.getElementById("address");
 	address.addEventListener('paste', function(e){e.preventDefault()});
 	address.addEventListener('keypress', function(e){e.preventDefault()});
 	address.addEventListener('mousedown', function(e){e.preventDefault()});
@@ -138,10 +139,19 @@
 	
 	
 	//06 - Синхронизация полей - общая функция
-	timein.addEventListener('input', onTimeinChange);
-	timeout.addEventListener('input', onTimeinChange);
-	type.addEventListener('input', onTypeChange);
-	room_number.addEventListener('input', onRoomChange);
+  var timein = document.getElementById("timein");
+	timein.addEventListener('change', onTimeinChange);
+  
+  var timeout = document.getElementById("timeout");
+	timeout.addEventListener('change', onTimeinChange);
+  
+  var type = document.getElementById("type");
+  var price = document.getElementById("price");
+	type.addEventListener('change', onTypeChange);
+  
+  var room_number = document.getElementById("room_number");
+  var capacity = document.getElementById("capacity");
+	room_number.addEventListener('change', onRoomChange);
 	
 	function onTypeChange (e) {
 		synchronizeFields(type, price, ["flat", "house", "palace", "bungalo"], [1000, 5000, 10000, 0], syncValueWithMin);
