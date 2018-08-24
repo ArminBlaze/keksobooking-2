@@ -97,12 +97,12 @@ function onError (message, success) {
   }
 
 
-  if(window.data.timer) {
-    clearTimeout(window.data.timer);
-    window.data.timer = null;
+  if(dataObj.timer) {
+    clearTimeout(dataObj.timer);
+    dataObj.timer = null;
   }
 
-  window.data.timer = setTimeout(function(){
+  dataObj.timer = setTimeout(function(){
     var errorDiv = document.querySelector('.errorDiv');
     if(errorDiv) errorDiv.parentNode.removeChild(errorDiv);
   }, 10000);
@@ -114,11 +114,19 @@ function onError (message, success) {
 
 
 export default {
+  dataObj: dataObj,
+  mapElem: mapElem,
   getButtons: function() {
-    return dataObj.buttons
+    return dataObj.buttons;
   },
   getAdverts: function() {
-    return dataObj.adverts
+    return dataObj.adverts;
+  },
+  getFilteredButtons: function() {
+    return dataObj.filteredButtons;
+  },
+  getfilteredAdverts: function() {
+    return dataObj.filteredAdverts;
   },
   onError: onError,
   createButtons: createButtons

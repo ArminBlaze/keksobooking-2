@@ -1,11 +1,10 @@
 // Map Module
+import map__drag from './map__drag';
 import data from './data';
 import map__pin from './map__pin';
-//import map__drag from './map__drag';
 import map__showCard from './map__showCard';
 import form from './form';
 import filters from './filters';
-import map__drag from './map__drag';
 
 var mapElem = document.querySelector('.map');
 var mapPins = mapElem.querySelector('.map__pins');
@@ -78,7 +77,7 @@ function onMapPinsClick (e) {
 
 function showCard (target) {
   onCardClose();
-  mapElem.card.showCard(target);
+  map__showCard.showCard(target);
   map__pin.selectPin(target);
 }
 
@@ -110,7 +109,7 @@ export default {
   mapShowed: mapState.mapShowed,
   advertCard: mapState.advertCard,
   activePin: mapState.activePin,
-  getElem: function() { return mapElem; },
+
   showMap: initMap,
   mapPins: mapPins,
   mainPin: mainPin,

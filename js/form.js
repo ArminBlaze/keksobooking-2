@@ -1,5 +1,8 @@
 		///////////////////////////////
 	// Модуль формы
+import fotosSort from './fotosSort';
+import backend from './backend.js';
+import data from './data';
 
 	//синхронизация полей ввода
 	var form = document.querySelector('.notice__form');
@@ -49,7 +52,7 @@
 //		console.log(data);
 
 		//картинки добавленные в форму
-		var sortedImages = window.fotosSort.sortFilesInInput();
+		var sortedImages = fotosSort.sortFilesInInput();
 //		console.log(sortedImages.length);
 
 //		var formData    = new FormData(this);
@@ -82,14 +85,14 @@
 //		console.log(data.getAll('files'));
 
 //    initializeProgress(); //для индикатора загрузки
-		window.backend.save(data, onLoad, window.data.onError);
+		backend.save(data, onLoad, data.onError);
 	};
 
 
 	function onLoad (data) {	//при успешной отправке данных на сервер
 		console.log(data);
 		form.reset();
-		window.data.onError("Данные отправлены", true);
+		data.onError("Данные отправлены", true);
 	}
 
 	function formValidation (e) {
@@ -130,7 +133,7 @@
 //		div.style.outline = "1px solid black";
 //		div.style.zIndex = "1001";
 //
-//		window.map.mapElem.appendChild(div)
+//		data.mapElem.appendChild(div)
 //	}
 
 

@@ -1,7 +1,7 @@
-import map from './map';
+import form from './form';
 
-var mapElem = map.getElem();
-var mainPin = map.mainPin;
+var mapElem = document.querySelector('.map');
+var mainPin = mapElem.querySelector('.map__pin--main');
 
   //перетаскивание пина
 function onDragstart (e) {
@@ -71,7 +71,7 @@ function onDragstart (e) {
     };
 
 
-    window.form.setAddress(position);
+    form.setAddress(position);
   }
 
   mainPin.ondragstart = function() {

@@ -50,7 +50,7 @@ function onFotosInputChange (e) {
 //обрабатываем файлы
 function handleFotos (files) {
   var filteredFiles = testFilesType(files);
-  window.fotos.filteredFiles = filteredFiles;
+  fotos.filteredFiles = filteredFiles;
 
   if(filteredFiles.length > 0) {
     initializeProgress(filteredFiles.length);

@@ -4,7 +4,7 @@ import map from './map';
 import util from './util';
 import data from './data';
 
-var mapElem = map.mapElem;
+var mapElem = data.mapElem;
 
 var template = document.querySelector('template');
 
@@ -20,9 +20,8 @@ else {
 var ESC_KEYCODE = 27;
 
 
-
 function showCard(target) {
-  var buttons = data.filteredButtons;
+  var buttons = data.getFilteredButtons();
   closeCard();
 
   if(~buttons.indexOf(target)) {
@@ -39,7 +38,7 @@ function showCard(target) {
 function closeCard () {
   if(map.advertCard) {
 //			generateCloseEvent(map.mapElem);
-    util.generateEvent(map.mapElem, "card-closed");
+    util.generateEvent(mapElem, "card-closed");
     mapElem.removeChild(map.advertCard);
     document.removeEventListener('keydown', onPopupEscPress);
     map.advertCard = null;
@@ -66,7 +65,7 @@ function createMapCard (index) {
 //  var advert = adverts[0];
   // рандомное объявление
 //  var advert = adverts[randomInteger(0, adverts.length - 1)];
-  var adverts = data.filteredAdverts;
+  var adverts = data.getfilteredAdverts();
   var advert = adverts[index];
   var type = advert.offer.type;
 
