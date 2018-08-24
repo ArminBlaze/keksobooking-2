@@ -1,18 +1,15 @@
-'use strict';
-
-;(function () { 
   var overlay;
   var showed = false;
-  
+
   createIndicator();
-  
+
   document.addEventListener('backend-loadstart', initializeProgress);
-  document.addEventListener('backend-loadend', progressDone);  
-  
+  document.addEventListener('backend-loadend', progressDone);
+
   function createIndicator () {
     overlay = document.createElement('div');
     overlay.classList.add('loading-overlay');
-    
+
     overlay.style.cssText = '\
     top: 0;\
     left: 0;\
@@ -28,8 +25,8 @@
     background-position: center center;\
     ';
   };
-    
-  
+
+
   function initializeProgress(e) {
 //    console.log("I hear document loadstart");
     showIndicator();
@@ -39,20 +36,19 @@
 //    console.log("I hear document loadend");
     hideIndicator();
   };
-  
+
   function showIndicator () {
     if(showed) return;
-    document.body.appendChild(window.loadingIndicator.overlay);
+    document.body.appendChild(overlay);
     showed = true;
   };
-  
+
   function hideIndicator () {
     if(!showed) return;
-    overlay.parentNode.removeChild(window.loadingIndicator.overlay);
+    overlay.parentNode.removeChild(overlay);
     showed = false;
   }
-  
-  window.loadingIndicator = {
+
+  export default {
     overlay: overlay
   }
-})();

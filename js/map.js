@@ -1,114 +1,122 @@
-////////////////////////////////
 // Map Module
-'use strict';
+import data from './data';
+import map__pin from './map__pin';
+//import map__drag from './map__drag';
+import map__showCard from './map__showCard';
+import form from './form';
+import filters from './filters';
+import map__drag from './map__drag';
 
-;(function () { 
-	var map = document.querySelector('.map');
-	var mapPins = map.querySelector('.map__pins');
-	var mainPin = mapPins.querySelector('.map__pin--main');
-	var mapFilters = map.querySelector('.map__filters');
-	
-	window.map = {
-		mapShowed: false,
-		advertCard: null,
-		activePin: null,
-		mapElem: map,
-		showMap: initMap,
-		mapPins: mapPins,
-		mainPin: mainPin,
-		mapFilters: mapFilters
-	};
-	
-	
-	mainPin.addEventListener('mouseup', onMainPinMouseUp);
-	
-	map.addEventListener('card-closed', onCardClose);
-	mapPins.addEventListener('mousedown', function(e) {
-		e.preventDefault(); //отмена выделения карты
-	});
-	
-	var debouncedOnFiltersChange = window.filters.debounce(onFiltersChange, 500);
-	mapFilters.addEventListener('change', debouncedOnFiltersChange);
-	
-	
+var mapElem = document.querySelector('.map');
+var mapPins = mapElem.querySelector('.map__pins');
+var mainPin = mapPins.querySelector('.map__pin--main');
+var mapFilters = mapElem.querySelector('.map__filters');
+
+var mapState = {
+  mapShowed: false,
+  advertCard: null,
+  activePin: null,
+};
+
+
+
+
+mainPin.addEventListener('mouseup', onMainPinMouseUp);
+
+mapElem.addEventListener('card-closed', onCardClose);
+mapPins.addEventListener('mousedown', function(e) {
+  e.preventDefault(); //отмена выделения карты
+});
+
+var debouncedOnFiltersChange = filters.debounce(onFiltersChange, 500);
+mapFilters.addEventListener('change', debouncedOnFiltersChange);
+
+
 //	var updateWizardsWithDelay = window.util.debounce(window.setup.updateWizards, 500);
-	
-	function onFiltersChange (e) {
-		var filters = window.filters.createFilters(e);
-		
-		window.data.filteredAdverts = window.filters.filterAdverts(filters);
-		// отображать отфильтрованные функцией отрисовки пинов
-		window.data.filteredButtons = window.data.createButtons(window.data.filteredAdverts);
-		window.map.pin.drawButtons(window.data.filteredButtons);
-		
-	}
 
-	//функция активации карты и формы. Запускается однократно, а потом удаляет обработчик
-	function onMainPinMouseUp (e) {
-		if(!window.data.adverts) return;
-//		console.log(window.data.adverts);
-		initMap();
-	};
+function onFiltersChange (e) {
+  var activeFilters = filters.createFilters(e);
 
-	//обработка кликов по пинам
-	function onMapPinsClick (e) {
-		//делегирование - поднимаемся по родителям
-		var target = e.target;
-		while (target != this) {
-			if ( target.classList.contains("map__pin") ) break;
-			target = target.parentNode;
-		}
-		if (target == this) return;
+  data.filteredAdverts = filters.filterAdverts(activeFilters);
+  // отображать отфильтрованные функцией отрисовки пинов
+  data.filteredButtons = data.createButtons(data.filteredAdverts);
+  map__pin.drawButtons(data.filteredButtons);
+
+}
+
+//функция активации карты и формы. Запускается однократно, а потом удаляет обработчик
+function onMainPinMouseUp (e) {
+  console.log("mainUp");
+  var adverts = data.getAdverts()
+  if(!adverts) return;
+  initMap();
+};
+
+//обработка кликов по пинам
+function onMapPinsClick (e) {
+  //делегирование - поднимаемся по родителям
+  var target = e.target;
+  while (target != this) {
+    if ( target.classList.contains("map__pin") ) break;
+    target = target.parentNode;
+  }
+  if (target == this) return;
 //		console.log(target);
 
-		//логика
-		showCard(target);
-	};
-	
+  //логика
+  showCard(target);
+};
+
 //	generateEvent() {
 //    this.elem.dispatchEvent(new CustomEvent('form-send', {
 //          bubbles: true,
 //          detail: this.user._id
 //        }));
 //  }
-	
-	
-	
-	function showCard (target) {
-		onCardClose();
-		window.map.card.showCard(target);
-		window.map.pin.selectPin(target);
-	}
-	
-	function onCardClose (e) {
-    console.log(e);
-		if(window.map.activePin) window.map.pin.deselectPin();
-	}
 
-	
-	function initMap () {
-		map.classList.remove('map--faded'); //
-		window.form.noticeForm.classList.remove('notice__form--disabled'); //
-		window.form.fieldsets.forEach(function(item){
-			item.removeAttribute('disabled');
-		});
-		window.mapShowed = true;
-		
-		window.map.pin.drawButtons(window.data.buttons);
-//		window.data.init();
-		mainPin.style.zIndex = 1000; // показывать над другими элементами
-		//убирать слушателья mouseup?
-		mainPin.removeEventListener('mouseup', onMainPinMouseUp);
-		mainPin.addEventListener('mousedown', window.drag.onDragstart);
-		
-		mapPins.addEventListener('click', onMapPinsClick);
-	}
-	
-	
 
-	
-	/////////////////////
+
+function showCard (target) {
+  onCardClose();
+  mapElem.card.showCard(target);
+  map__pin.selectPin(target);
+}
+
+function onCardClose (e) {
+  console.log(e);
+  if(mapState.activePin) map__pin.deselectPin();
+}
+
+
+function initMap () {
+  mapElem.classList.remove('map--faded'); //
+  form.noticeForm.classList.remove('notice__form--disabled'); //
+  form.fieldsets.forEach(function(item){
+    item.removeAttribute('disabled');
+  });
+  mapState.mapShowed = true;
+
+  map__pin.drawButtons(data.getButtons());
+//		data.init();
+  mainPin.style.zIndex = 1000; // показывать над другими элементами
+  //убирать слушателья mouseup?
+  mainPin.removeEventListener('mouseup', onMainPinMouseUp);
+  mainPin.addEventListener('mousedown', map__drag.onDragstart);
+
+  mapPins.addEventListener('click', onMapPinsClick);
+}
+
+export default {
+  mapShowed: mapState.mapShowed,
+  advertCard: mapState.advertCard,
+  activePin: mapState.activePin,
+  getElem: function() { return mapElem; },
+  showMap: initMap,
+  mapPins: mapPins,
+  mainPin: mainPin,
+  mapFilters: mapFilters
+};
+
+
+/////////////////////
 //	06 - XHR
-
-
-})();
