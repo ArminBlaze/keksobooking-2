@@ -1,8 +1,8 @@
 		///////////////////////////////
 	// Модуль формы
-import fotosSort from './fotosSort';
 import backend from './backend.js';
 import data from './data';
+import fotosSort from './fotosSort';
 
 	//синхронизация полей ввода
 	var form = document.querySelector('.notice__form');
@@ -36,7 +36,7 @@ import data from './data';
 	function onFormSubmit (e) {
 		e.preventDefault();
 
-		var data = new FormData(this);
+		var datum = new FormData(this);
 //		var data = {};
 //		var data = new FormData();
 
@@ -75,7 +75,7 @@ import data from './data';
 //			data.files[i] = item;
 //			data.append('files' + i, storedFiles[item_number]);
 //			data.append('files[]', item, item.name);
-			data.append('file' + i, item, item.name);
+			datum.append('file' + i, item, item.name);
 		});
 
 //		data.append('testField', 'test');
@@ -84,12 +84,12 @@ import data from './data';
 //		console.log(data.getAll('files'));
 
 //    initializeProgress(); //для индикатора загрузки
-		backend.save(data, onLoad, data.onError);
+		backend.save(datum, onLoad, data.onError);
 	};
 
 
-	function onLoad (data) {	//при успешной отправке данных на сервер
-		console.log(data);
+	function onLoad (datum) {	//при успешной отправке данных на сервер
+		console.log(datum);
 		form.reset();
 		data.onError("Данные отправлены", true);
 	}

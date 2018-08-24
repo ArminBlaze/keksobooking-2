@@ -34,19 +34,21 @@ mapFilters.addEventListener('change', debouncedOnFiltersChange);
 //	var updateWizardsWithDelay = window.util.debounce(window.setup.updateWizards, 500);
 
 function onFiltersChange (e) {
+//  debugger;
   var activeFilters = filters.createFilters(e);
 
   data.filteredAdverts = filters.filterAdverts(activeFilters);
+//  debugger;
   // отображать отфильтрованные функцией отрисовки пинов
-  data.filteredButtons = data.createButtons(data.getfilteredAdverts());
-  map__pin.drawButtons(data.getFilteredButtons());
+  data.filteredButtons = data.createButtons(data.filteredAdverts);
+  map__pin.drawButtons(data.filteredButtons);
 
 }
 
 //функция активации карты и формы. Запускается однократно, а потом удаляет обработчик
 function onMainPinMouseUp (e) {
   console.log("mainUp");
-  var adverts = data.getAdverts()
+  var adverts = data.adverts;
   if(!adverts) return;
   initMap();
 };
@@ -78,14 +80,12 @@ function onMapPinsClick (e) {
 function showCard (target) {
   onCardClose();
   map__showCard.showCard(target);
-  debugger;
   map__pin.selectPin(target);
   console.log(mapState);
 }
 
 function onCardClose (e) {
 //  console.log(e);
-  debugger;
   console.log(mapState.activePin);
   if(mapState.activePin) map__pin.deselectPin();
 }
@@ -99,7 +99,7 @@ function initMap () {
   });
   mapState.mapShowed = true;
 
-  map__pin.drawButtons(data.getButtons());
+  map__pin.drawButtons(data.buttons);
 //		data.init();
   mainPin.style.zIndex = 1000; // показывать над другими элементами
   //убирать слушателья mouseup?
@@ -110,9 +110,10 @@ function initMap () {
 }
 
 export default {
-  mapShowed: mapState.mapShowed,
-  advertCard: mapState.advertCard,
-  activePin: mapState.activePin,
+  mapState: mapState,
+//  mapShowed: mapState.mapShowed,
+//  advertCard: mapState.advertCard,
+//  activePin: mapState.activePin,
 
   showMap: initMap,
   mapPins: mapPins,

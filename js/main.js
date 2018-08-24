@@ -17,7 +17,7 @@ import loadingIndicator from './loading-indicator';
 //import data from './data';
 //import filters from './filters';
 import map from './map.js';
-import form from './form';
 import fotos from './fotos';
+import form from './form';
 import fotosSort from './fotosSort';
 import fotosDrag from './fotosDrag';

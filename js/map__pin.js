@@ -22,14 +22,14 @@ function deleteButtons () {
 }
 
 function deselectPin () {
-  console.log(map.activePin);
-  map.activePin.classList.remove('map__pin_active');
-  map.activePin = null;
+  console.log(map.mapState.activePin);
+  map.mapState.activePin.classList.remove('map__pin_active');
+  map.mapState.activePin = null;
 }
 
 function selectPin (target) {
-  map.activePin = target;
-  map.activePin.classList.add('map__pin_active');
+  map.mapState.activePin = target;
+  map.mapState.activePin.classList.add('map__pin_active');
 }
 
 

@@ -115,21 +115,70 @@ function onError (message, success) {
 
 export default {
   mapElem: mapElem,
-  getButtons: function() {
-    return dataObj.buttons;
-  },
-  getAdverts: function() {
+  onError: onError,
+  createButtons: createButtons,
+
+  get adverts() {
     return dataObj.adverts;
   },
-  getFilteredButtons: function() {
+  set adverts(adverts) {
+    dataObj.adverts = adverts;
+  },
+  get buttons() {
+    return dataObj.buttons;
+  },
+  set buttons(buttons) {
+    dataObj.buttons = buttons;
+  },
+  get filteredButtons() {
     return dataObj.filteredButtons;
   },
-  getfilteredAdverts: function() {
+  set filteredButtons(filteredButtons) {
+    dataObj.filteredButtons = filteredButtons;
+  },
+  get filteredAdverts() {
     return dataObj.filteredAdverts;
   },
-  onError: onError,
-  createButtons: createButtons
+  set filteredAdverts(filteredAdverts) {
+    dataObj.filteredAdverts = filteredAdverts;
+  }
 };
+
+//  Object.defineProperties(export, {
+//    adverts: {
+//      get: function() {
+//        return dataObj.adverts;
+//      },
+//      set: function(adverts) {
+//        dataObj.adverts = adverts;
+//      }
+//    },
+//    buttons: {
+//      get: function() {
+//        return dataObj.buttons;
+//      },
+//      set: function(buttons) {
+//        dataObj.buttons = buttons;
+//      }
+//    },
+//    filteredButtons: {
+//      get: function() {
+//        return dataObj.filteredButtons;
+//      },
+//      set: function(filteredButtons) {
+//        dataObj.filteredButtons = filteredButtons;
+//      }
+//    },
+//    filteredAdverts: {
+//      get: function() {
+//        return dataObj.filteredAdverts;
+//      },
+//      set: function(filteredAdverts) {
+//        dataObj.filteredAdverts = filteredAdverts;
+//      }
+//    }
+//  });
+
 
 
 

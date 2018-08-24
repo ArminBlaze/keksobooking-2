@@ -20,6 +20,8 @@ var progressBar = document.getElementById('progress-bar');
 var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 var DEFAULT_AVATAR = 'img/muffin.png';
 
+var filesObj = {};
+
 
 avatarInput.addEventListener('change', onAvatarInputChange);
 fotosInput.addEventListener('change', onFotosInputChange);
@@ -53,7 +55,8 @@ function onFotosInputChange (e) {
 //обрабатываем файлы
 function handleFotos (files) {
   var filteredFiles = testFilesType(files);
-  fotos.filteredFiles = filteredFiles;
+  filesObj.files = filteredFiles;
+  console.log(files.files);
 
   if(filteredFiles.length > 0) {
     initializeProgress(filteredFiles.length);
@@ -186,5 +189,14 @@ export default {
   generatePreviews: generatePreviews,
   onFotosLoad: onFotosLoad,
   handleFotos: handleFotos,
-  handleAvatar: handleAvatar
+  handleAvatar: handleAvatar,
+  get filteredFiles() {
+    return filesObj.files;
+  },
+  set filteredFiles(files) {
+    filesObj.files = files;
+  },
+  filesObj: filesObj
 };
+
+//сделать геттер для filteredFiles из какого-то объекта

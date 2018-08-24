@@ -21,7 +21,7 @@ var ESC_KEYCODE = 27;
 
 
 function showCard(target) {
-  var buttons = data.getFilteredButtons();
+  var buttons = data.filteredButtons;
   closeCard();
 
   if(~buttons.indexOf(target)) {
@@ -65,7 +65,7 @@ function createMapCard (index) {
 //  var advert = adverts[0];
   // рандомное объявление
 //  var advert = adverts[randomInteger(0, adverts.length - 1)];
-  var adverts = data.getfilteredAdverts();
+  var adverts = data.filteredAdverts;
   var advert = adverts[index];
   var type = advert.offer.type;
 

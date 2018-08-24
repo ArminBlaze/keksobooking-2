@@ -1,4 +1,5 @@
 import fotos from './fotos';
+console.log(fotos);
 
 var fotosBlock = fotos.fotosBlock;
 var fotosDropzone = fotos.fotosDropzone;

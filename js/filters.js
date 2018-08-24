@@ -30,7 +30,7 @@ function createFilters (e) {
 
 //фильтруем объявления по собранным фильтрам
 function filterAdverts (filters) {
-  var adverts = data.getAdverts();
+  var adverts = data.adverts;
   newAdverts = adverts.filter(function (elem) {
     return filterAdvert(elem);
   });
