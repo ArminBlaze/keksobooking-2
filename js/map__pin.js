@@ -22,6 +22,7 @@ function deleteButtons () {
 }
 
 function deselectPin () {
+  console.log(map.activePin);
   map.activePin.classList.remove('map__pin_active');
   map.activePin = null;
 }

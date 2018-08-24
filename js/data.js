@@ -114,7 +114,6 @@ function onError (message, success) {
 
 
 export default {
-  dataObj: dataObj,
   mapElem: mapElem,
   getButtons: function() {
     return dataObj.buttons;

@@ -38,8 +38,8 @@ function onFiltersChange (e) {
 
   data.filteredAdverts = filters.filterAdverts(activeFilters);
   // отображать отфильтрованные функцией отрисовки пинов
-  data.filteredButtons = data.createButtons(data.filteredAdverts);
-  map__pin.drawButtons(data.filteredButtons);
+  data.filteredButtons = data.createButtons(data.getfilteredAdverts());
+  map__pin.drawButtons(data.getFilteredButtons());
 
 }
 
@@ -78,11 +78,15 @@ function onMapPinsClick (e) {
 function showCard (target) {
   onCardClose();
   map__showCard.showCard(target);
+  debugger;
   map__pin.selectPin(target);
+  console.log(mapState);
 }
 
 function onCardClose (e) {
-  console.log(e);
+//  console.log(e);
+  debugger;
+  console.log(mapState.activePin);
   if(mapState.activePin) map__pin.deselectPin();
 }
 

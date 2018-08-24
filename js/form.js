@@ -6,7 +6,6 @@ import data from './data';
 
 	//синхронизация полей ввода
 	var form = document.querySelector('.notice__form');
-//	var form = document.querySelector('.notice__form');
 
 	var fieldsets = [].slice.call(form.querySelectorAll('fieldset'));
 

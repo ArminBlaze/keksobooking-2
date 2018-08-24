@@ -1,11 +1,14 @@
-import form from './form';
+//import form from './form';
+import data from './data';
 
-var avatarBlock = form.noticeForm.querySelector('.notice__photo');
+
+var form = document.querySelector('.notice__form');
+var avatarBlock = form.querySelector('.notice__photo');
 var avatarDropzone = avatarBlock.querySelector('.drop-zone');
 var avatarInput = avatarBlock.querySelector('#avatar');
 var avatarPreview = avatarBlock.querySelector('.notice__preview img');
 
-var fotosBlock = form.noticeForm.querySelector('.form__photo-container');
+var fotosBlock = form.querySelector('.form__photo-container');
 var fotosDropzone = fotosBlock.querySelector('.drop-zone');
 var fotosInput = fotosBlock.querySelector('#images');
 var fotosPreview = fotosBlock.querySelector('.previews');
@@ -20,7 +23,7 @@ var DEFAULT_AVATAR = 'img/muffin.png';
 
 avatarInput.addEventListener('change', onAvatarInputChange);
 fotosInput.addEventListener('change', onFotosInputChange);
-form.noticeForm.addEventListener('reset', onFormReset);
+form.addEventListener('reset', onFormReset);
 
 
 function onAvatarInputChange (e) {
