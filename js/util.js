@@ -6,6 +6,7 @@
 		var event = document.createEvent("Event"); //IE 9+
 //		event.initEvent("image-added", true, true); //IE 9+
 		event.initEvent(msg, true, true); //IE 9+
+//    event.detail = ["peka", "lol"];
 		elem.dispatchEvent(event);
 	}
 	

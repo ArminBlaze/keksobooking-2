@@ -80,7 +80,8 @@
 		window.map.pin.selectPin(target);
 	}
 	
-	function onCardClose () {
+	function onCardClose (e) {
+    console.log(e);
 		if(window.map.activePin) window.map.pin.deselectPin();
 	}
 
