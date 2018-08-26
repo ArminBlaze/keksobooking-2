@@ -115,9 +115,12 @@ export default {
 //  advertCard: mapState.advertCard,
 //  activePin: mapState.activePin,
 
+  get mapElem1() {
+    return mapElem;
+  },
+  mainPin: mainPin,
   showMap: initMap,
   mapPins: mapPins,
-  mainPin: mainPin,
   mapFilters: mapFilters
 };
 

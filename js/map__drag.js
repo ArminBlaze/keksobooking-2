@@ -1,7 +1,14 @@
+//import map from './map.js';
 import form from './form';
 
-var mapElem = document.querySelector('.map');
-var mainPin = mapElem.querySelector('.map__pin--main');
+//var mapElem = document.querySelector('.map');
+//var mainPin = mapElem.querySelector('.map__pin--main');
+
+import('./map.js')
+  .then((map) => {
+    var mapElem = map.mapElem1;
+    var mainPin = map.mainPin;
+  });
 
   //перетаскивание пина
 function onDragstart (e) {
