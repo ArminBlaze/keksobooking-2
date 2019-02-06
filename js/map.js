@@ -2,12 +2,12 @@
 // Map Module
 'use strict';
 
-;(function () { 
+;(function () {
 	var map = document.querySelector('.map');
 	var mapPins = map.querySelector('.map__pins');
 	var mainPin = mapPins.querySelector('.map__pin--main');
 	var mapFilters = map.querySelector('.map__filters');
-	
+
 	window.map = {
 		mapShowed: false,
 		advertCard: null,
@@ -18,30 +18,35 @@
 		mainPin: mainPin,
 		mapFilters: mapFilters
 	};
-	
-	
+
+
 	mainPin.addEventListener('mouseup', onMainPinMouseUp);
-	
+
 	map.addEventListener('card-closed', onCardClose);
 	mapPins.addEventListener('mousedown', function(e) {
 		e.preventDefault(); //отмена выделения карты
 	});
-	
-	var debouncedOnFiltersChange = window.filters.debounce(onFiltersChange, 500);
-	mapFilters.addEventListener('change', debouncedOnFiltersChange);
-	
-	
+
+	var debouncedFilterAndDraw = window.filters.debounce(filterAndDraw, 500);
+	mapFilters.addEventListener('change', onFiltersChange);
+
+
 //	var updateWizardsWithDelay = window.util.debounce(window.setup.updateWizards, 500);
-	
+
 	function onFiltersChange (e) {
+    //собираем фильтры при каждом нажатии
 		var filters = window.filters.createFilters(e);
-		
+
+//    но фильтруем не сразу, а через дебаунс
+    debouncedFilterAndDraw(filters);
+	}
+
+  function filterAndDraw(filters) {
 		window.data.filteredAdverts = window.filters.filterAdverts(filters);
 		// отображать отфильтрованные функцией отрисовки пинов
 		window.data.filteredButtons = window.data.createButtons(window.data.filteredAdverts);
 		window.map.pin.drawButtons(window.data.filteredButtons);
-		
-	}
+  }
 
 	//функция активации карты и формы. Запускается однократно, а потом удаляет обработчик
 	function onMainPinMouseUp (e) {
@@ -64,28 +69,28 @@
 		//логика
 		showCard(target);
 	};
-	
+
 //	generateEvent() {
 //    this.elem.dispatchEvent(new CustomEvent('form-send', {
 //          bubbles: true,
 //          detail: this.user._id
 //        }));
 //  }
-	
-	
-	
+
+
+
 	function showCard (target) {
 		onCardClose();
 		window.map.card.showCard(target);
 		window.map.pin.selectPin(target);
 	}
-	
+
 	function onCardClose (e) {
     console.log(e);
 		if(window.map.activePin) window.map.pin.deselectPin();
 	}
 
-	
+
 	function initMap () {
 		map.classList.remove('map--faded'); //
 		window.form.noticeForm.classList.remove('notice__form--disabled'); //
@@ -93,20 +98,20 @@
 			item.removeAttribute('disabled');
 		});
 		window.mapShowed = true;
-		
+
 		window.map.pin.drawButtons(window.data.buttons);
 //		window.data.init();
 		mainPin.style.zIndex = 1000; // показывать над другими элементами
 		//убирать слушателья mouseup?
 		mainPin.removeEventListener('mouseup', onMainPinMouseUp);
 		mainPin.addEventListener('mousedown', window.drag.onDragstart);
-		
+
 		mapPins.addEventListener('click', onMapPinsClick);
 	}
-	
-	
 
-	
+
+
+
 	/////////////////////
 //	06 - XHR
 
